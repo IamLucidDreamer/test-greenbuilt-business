@@ -21,15 +21,23 @@ export const login =
         password,
       })
       .then((res) => {
-        res?.data?.data?.role === 1
-          ? toast.warning(
-              "Web Portal is for Business's and Admins only. Please use the mobile app Instead."
-            )
-          : toast.success(res?.data?.message);
-        dispatch(setUserDetails(res?.data?.data));
-        dispatch(setAuth(true));
-        if (window !== undefined) {
-          localStorage.setItem("jwt", JSON.stringify(res?.data?.token));
+        if (res?.data?.data?.role === 1 || res?.data?.data?.role === 3) {
+          if (res?.data?.data?.role === 1) {
+            toast.warning(
+              "Web Portal is for Business's only. Please use the mobile app Instead."
+            );
+          } else {
+            toast.warning(
+              "Admin's use CRM Instead. Location crm.greenbuilt.com"
+            );
+          }
+        } else {
+          toast.success(res?.data?.message);
+          dispatch(setUserDetails(res?.data?.data));
+          dispatch(setAuth(true));
+          if (window !== undefined) {
+            localStorage.setItem("jwt", JSON.stringify(res?.data?.token));
+          }
         }
       })
       .catch((err) => toast.error(err?.response?.data?.error));
@@ -59,6 +67,7 @@ export const logout = () => {
   return (dispatch) => {
     localStorage.removeItem("jwt");
     dispatch(setUserDetails(null));
+    dispatch(setAuth(false));
     axios.get("/signout");
     toast.success("User Logged out");
   };

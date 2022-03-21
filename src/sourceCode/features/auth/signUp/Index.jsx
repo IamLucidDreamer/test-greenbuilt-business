@@ -22,12 +22,8 @@ const SignUpOtp = () => {
   const [businessPhone, setBusinessPhone] = useState("");
 
   useEffect(() => {
-    if (authenticated) {
-      if (user?.role === 2) {
-        navigate("/business/dashboard");
-      }
-    } else {
-      navigate("/");
+    if (authenticated && user.role === 2) {
+      navigate("/business/dashboard");
     }
   }, [user]);
 

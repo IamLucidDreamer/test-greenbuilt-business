@@ -15,6 +15,7 @@ export const Login = () => {
 
   console.log(authenticated, "Login authenticated");
   console.log(auth, "Login auth");
+  console.log(user);
 
   useEffect(() => {
     if (authenticated && user.role === 2) {
@@ -61,7 +62,7 @@ export const Login = () => {
                 {...formik.getFieldProps("email")}
               />
               {formik.touched.email && formik.errors.email ? (
-                <div>{formik.errors.email}</div>
+                <div> {formik.errors.email}</div>
               ) : null}
             </div>
             <div className="my-2 flex flex-col">
