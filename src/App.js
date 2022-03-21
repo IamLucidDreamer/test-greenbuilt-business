@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Importing Components
-import { Navigation } from "./sourceCode/features/navigation/index";
+import { Navigation } from "./sourceCode/features/navigation/Index";
 
 function App() {
   return (

@@ -1,32 +1,32 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect } from "react";
 import Logo from "../../../assets/logoGreenbuilt.png";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../store/actions/user";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import isEmpty from "../../../utils/isEmpty";
+import { authenticated } from "../../../utils/auth";
 
 export const Login = () => {
   const user = useSelector((state) => state.user);
+  const auth = useSelector((state) => state.user.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = JSON.parse(localStorage.getItem("jwt"));
+
+  console.log(authenticated, "Login authenticated");
+  console.log(auth, "Login auth");
 
   useEffect(() => {
-    if (isEmpty(token)) {
-      if (user?.role === 2) {
-        navigate("/business/dashboard");
-      }
-    } else {
-      navigate("/");
+    if (authenticated && user.role === 2) {
+      navigate("/business/dashboard");
     }
   }, [user]);
 
-  const dispatch = useDispatch();
   const handleLogin = (loginValue) => {
     dispatch(login(loginValue));
   };
 
+  // Login Form Handling
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -40,13 +40,14 @@ export const Login = () => {
       handleLogin(values);
     },
   });
+
   return (
     <>
       <div className="min-h-screen  bg-gradient-to-br from-[#017f02] to-[#06788f] flex items-center justify-center">
-        <div className="w-1/3 bg-white rounded-lg p-4">
+        <div className="w-11/12 sm:w-9/12 md:w-2/3 lg:w-1/3 bg-white rounded-lg p-4">
           <img src={Logo} className="w-9/12 mx-auto" alt="" />
 
-          <h1 className="text-xs text-purple-1 pt-3 text-center">
+          <h1 className="text-sm font-bold text-purple-1 pt-3 text-center">
             LogIn with Credentials
           </h1>
           <form className="" onSubmit={formik.handleSubmit}>
