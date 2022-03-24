@@ -1,5 +1,3 @@
-const token = JSON.parse(localStorage.getItem("jwt"));
-
-const authenticated = token ? true : false;
+const authenticated = (token) => (token ? true : false);
 
 export { authenticated };

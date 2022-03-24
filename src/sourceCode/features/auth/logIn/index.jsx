@@ -13,12 +13,12 @@ export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(authenticated, "Login authenticated");
   console.log(auth, "Login auth");
   console.log(user);
 
   useEffect(() => {
-    if (authenticated && user.role === 2) {
+    const token = localStorage.getItem("jwt");
+    if (token && user.role === 2) {
       navigate("/business/dashboard");
     }
   }, [user]);

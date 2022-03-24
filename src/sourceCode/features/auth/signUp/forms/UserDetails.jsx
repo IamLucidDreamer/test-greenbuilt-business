@@ -3,22 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { signUpBusiness } from "../../store/actions/user";
+import { signUpBusiness } from "../../../../store/actions/user";
 import { authenticated, UserRole } from "../../../../utils/auth";
 
 export const UserDetails = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (authenticated) {
-      if (UserRole === 2) {
-        navigate("/business/dashboard");
-      }
-    } else {
-      navigate("/");
-    }
-  }, [UserRole]);
 
   // SignUp User Details Form Handling
   const formik = useFormik({

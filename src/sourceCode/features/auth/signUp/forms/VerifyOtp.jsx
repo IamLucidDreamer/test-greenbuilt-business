@@ -13,7 +13,6 @@ export const VerifyOtp = (props) => {
     }),
     onSubmit: (values) => {
       const { otp } = values;
-      console.log(otp);
       getVerify(otp);
     },
   });
@@ -25,7 +24,7 @@ export const VerifyOtp = (props) => {
       .then((res) => {
         console.log(res, "Success");
         toast.success("OTP Verified Successfully");
-        props.OTPSuccess();
+        props.changeFormNumber(4);
       })
       .catch((err) => {
         console.log(err);
@@ -43,7 +42,7 @@ export const VerifyOtp = (props) => {
         <span className="text-base font-bold">{props.businessPhone}</span>
         <button
           className="text-sm px-2 hover:underline font-bold text-purple-1"
-          onClick={() => props.handlePhoneChange()}
+          onClick={() => props.changeFormNumber(1)}
         >
           Change Number
         </button>

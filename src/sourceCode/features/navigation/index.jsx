@@ -10,16 +10,19 @@ import { authenticated } from "../../utils/auth";
 import { Home } from "../main/Index";
 import { Login } from "../auth/logIn/Index";
 import { SignUp } from "../auth/signUp/Index";
+import { Products } from "../products/Index";
+import { Dashboard } from "../dashboard/Index";
+import { DashboardStats } from "../dashboardStats/Index";
+import { AddNewProduct } from "../addNewProduct/Index";
+import { GenerateQr } from "../generateQr/Index";
 
 export const Navigation = () => {
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.user.auth);
+  const token = JSON.parse(localStorage.getItem("jwt"));
 
   const navigate = useNavigate();
   const handleUnAuth = () => navigate("/login");
-
-  console.log(authenticated, "Hello Nav");
-  console.log(auth, "Hello Nav");
 
   return (
     <Routes>
@@ -29,9 +32,14 @@ export const Navigation = () => {
 
       {/* Handling the Business User Routes */}
 
-      {user.role === 2 && authenticated && auth ? (
+      {user.role === 2 && token && auth ? (
         <>
-          <Route path="/business/dashboard" element={<div>Hello</div>} />
+          <Route path="/business" element={<Dashboard />}>
+            <Route path="dashboard" element={<DashboardStats />} />
+            <Route path="product" element={<Products />} />
+            <Route path="generateqr" element={<GenerateQr />} />
+          </Route>
+          <Route path="/newproduct" element={<AddNewProduct />} />
         </>
       ) : (
         () => handleUnAuth()
