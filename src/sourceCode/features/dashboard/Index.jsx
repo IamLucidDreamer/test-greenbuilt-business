@@ -23,6 +23,13 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const [collapsed, setCollapsed] = useState(false);
+  const [breadCrumbs, setBreadCrumbs] = useState("");
+  const [menuKey, setMenuKey] = useState("");
+
+  // const handleDashboardProps = (pageTitle, key) => {
+  //   setBreadCrumbs(pageTitle);
+  //   setMenuKey(key);
+  // };
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -103,11 +110,19 @@ export const Dashboard = () => {
             justifyContent: "space-between",
           }}
         >
-          <h1 className="text-white text-base">Dashboard / Product</h1>
+          <h1 className="text-white text-base m-0 font-bold">Dashboard</h1>
           <div className="flex items-center">
-            <h1 className="text-white text-base pr-3">{user.name}</h1>
-            <div className="flex ">
-              <UserOutlined style={{ backgroundColor: "#fff", fontSize: 28 }} />
+            <h1 className="text-white text-base pr-3 m-0 font-bold">
+              {user.name}
+            </h1>
+            <div className="">
+              <UserOutlined
+                style={{
+                  backgroundColor: "#fff",
+                  fontSize: 28,
+                  borderRadius: 14,
+                }}
+              />
             </div>
           </div>
         </Header>
