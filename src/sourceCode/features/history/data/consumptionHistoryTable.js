@@ -5,8 +5,8 @@ import { innerTableActionBtnDesign } from "../../components/styles/innerTableAct
 export const columns = [
   {
     key: "title",
-    title: "Title",
-    render: (data) => data.title,
+    title: "Product Title",
+    render: (data) => console.log(data),
   },
   {
     key: "packagingType",

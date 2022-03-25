@@ -1,15 +1,16 @@
 import React, { useEffect, useReducer } from "react";
 import { DataTable } from "../../components/table/Index";
-import { columns } from "../data/productTableColumns";
+import { columns } from "../data/consumptionHistoryTable";
 import ActionButtons from "../../components/actionsButtons/Index";
 import axios from "../../../appConfig/httpHelper";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 export const ConsumptionHistory = () => {
   const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem("jwt"));
-
+  const user = useSelector((state) => state.user);
   // Declaring the States Required for the Working of the Component
   const [actions, setActions] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
@@ -43,7 +44,7 @@ export const ConsumptionHistory = () => {
   const requestsCaller = () => {
     setActions({ loading: true });
     axios
-      .get("/product/get-all/corporate", {
+      .get(`/qr/history/consume/${user.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -58,7 +59,7 @@ export const ConsumptionHistory = () => {
   const getAllProducts = () => {
     setActions({ loadingAllProducts: true });
     axios
-      .get("/product/get-all/corporate", {
+      .get(`/qr/history/consume/${user.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -91,8 +92,8 @@ export const ConsumptionHistory = () => {
         totalItems={allProducts}
         loadingItems={loadingAllProducts}
         downloadItems={downloadAllProducts}
-        showAddNewButton={true}
-        addNewFunction={addNewProduct}
+        showAddNewButton={false}
+        addNewFunction={""}
       />
       <div className="border-2 mt-5">
         <DataTable usersData={products} columns={columns} loading={loading} />
