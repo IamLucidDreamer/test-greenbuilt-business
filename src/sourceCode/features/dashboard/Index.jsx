@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu, Dropdown } from "antd";
 import {
   DashboardOutlined,
   UnorderedListOutlined,
@@ -8,28 +8,22 @@ import {
   FileOutlined,
   HistoryOutlined,
   UserOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 
 import Logo from "../../assets/logoGreenbuilt.png";
-import { Outlet, useSearchParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import "./styles/index.css";
-import { useSelector } from "react-redux";
+import { HeaderElement } from "../components/layout/Header";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
-  const [collapsed, setCollapsed] = useState(false);
-  const [breadCrumbs, setBreadCrumbs] = useState("");
-  const [menuKey, setMenuKey] = useState("");
 
-  // const handleDashboardProps = (pageTitle, key) => {
-  //   setBreadCrumbs(pageTitle);
-  //   setMenuKey(key);
-  // };
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -101,31 +95,7 @@ export const Dashboard = () => {
         </Menu>
       </Sider>
       <Layout className="site-layout">
-        <Header
-          style={{
-            paddingLeft: "25px",
-            backgroundColor: "#140035",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <h1 className="text-white text-base m-0 font-bold">Dashboard</h1>
-          <div className="flex items-center">
-            <h1 className="text-white text-base pr-3 m-0 font-bold">
-              {user.name}
-            </h1>
-            <div className="">
-              <UserOutlined
-                style={{
-                  backgroundColor: "#fff",
-                  fontSize: 28,
-                  borderRadius: 14,
-                }}
-              />
-            </div>
-          </div>
-        </Header>
+        <HeaderElement />
         <Content style={{ margin: "0 16px" }}>
           {/* For Managing Component Change within the Nested Routes Outlet is used*/}
           <Outlet />
