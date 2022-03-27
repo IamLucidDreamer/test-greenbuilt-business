@@ -15,7 +15,7 @@ export const RequestPoints = () => {
     formData.append("totalGreenConsumption", loginValue.greenConsumption);
     console.log(formData);
     axios
-      .post("/document/upload/1", formData, {
+      .post("/power-consumption/create", formData, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => toast.success(res.data.message))
