@@ -12,11 +12,13 @@ export const DataTable = ({
   pagination,
 }) => {
   return (
-    <Table
-      columns={columns}
-      dataSource={usersData}
-      pagination={pagination}
-      loading={loading}
-    />
+    <div className="overflow-x-scroll">
+      <Table
+        columns={columns}
+        dataSource={usersData}
+        pagination={true}
+        loading={loading}
+      />
+    </div>
   );
 };

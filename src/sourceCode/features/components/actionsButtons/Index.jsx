@@ -46,11 +46,8 @@ export const ActionButtons = (props) => {
                 loading={props.loadingAllProducts}
               >
                 <CSVLink
-                  filename="Products.csv"
-                  data={props.totalItems.map((business) => {
-                    const updatedBusiness = { ...business };
-                    return updatedBusiness;
-                  })}
+                  filename={props.csvName}
+                  data={props.totalItems}
                   onClick={() => {
                     toast.success("The file is downloading");
                   }}
@@ -78,7 +75,7 @@ export const ActionButtons = (props) => {
               className="w-44"
               type="primary"
               style={{ fontWeight: "bold" }}
-              onClick={() => navigate("/newproduct")}
+              onClick={() => props.addNewFunction()}
             >
               Add New
             </Button>

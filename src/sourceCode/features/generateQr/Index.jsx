@@ -1,13 +1,13 @@
 import React, { useEffect, useReducer } from "react";
 import { DataTable } from "../components/table/Index";
-import { columns } from "./data/productTableColumns";
 import ActionButtons from "../components/actionsButtons/Index";
 import axios from "../../appConfig/httpHelper";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { QrcodeOutlined } from "@ant-design/icons";
+import { innerTableActionBtnDesign } from "../components/styles/innerTableActions";
+import { DrawerComp } from "./components/Drawer";
 
 export const GenerateQr = () => {
-  const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem("jwt"));
 
   // Declaring the States Required for the Working of the Component
@@ -24,28 +24,20 @@ export const GenerateQr = () => {
     }
   );
 
-  const {
-    drawer,
-    loading,
-    pagination,
-    trash,
-    newProduct,
-    loadingAllProducts,
-    downloadAllProducts,
-  } = actions;
+  const { drawer, loading, pagination } = actions;
 
   const [value, setValue] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
-    { products: [], allProducts: [] }
+    { products: [], drawerValue: {} }
   );
 
-  const { products, allProducts } = value;
+  const { products, drawerValue } = value;
 
   // Functions Used for Different Data
   const requestsCaller = () => {
     setActions({ loading: true });
     axios
-      .get("/product/get-all/corporate", {
+      .get("/product/get-all/corporate/?limit=50&offset=0", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,26 +49,91 @@ export const GenerateQr = () => {
       .finally(setActions({ loading: false }));
   };
 
-  const getAllProducts = () => {
-    setActions({ loadingAllProducts: true });
+  const GenerateHelper = (productId) => {
     axios
-      .get("/product/get-all/corporate", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post(
+        `/qr/generate/${productId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
-        toast.success("Products Ready for Download");
-        setActions({ downloadAllProducts: true });
-        setValue({ allProducts: res.data.data });
+        toast.success(res.data.message);
+        setValue({ drawerValue: res.data.data });
+        setActions({ drawer: true });
       })
-      .catch((err) => console.log(err))
-      .finally(setActions({ loadingAllProducts: true }));
+      .catch((err) => {
+        console.log(err);
+        toast.error("QR Code Generation Failed");
+      });
   };
 
   useEffect(() => requestsCaller(), []);
 
-  const addNewProduct = () => console.log("New Product");
+  const columns = [
+    {
+      key: "title",
+      title: "Title",
+      render: (data) => data.title,
+    },
+    {
+      key: "packagingType",
+      title: "Packaging Type",
+      render: (data) => data.packagingType,
+    },
+    {
+      key: "industryType",
+      title: "Industry Type",
+      render: (data) => data.industryType,
+    },
+    {
+      key: "uom",
+      title: "UOM",
+      render: (data) => data.uom,
+    },
+    {
+      key: "description",
+      title: "Description",
+      render: (data) => data.description,
+    },
+    {
+      key: "points",
+      title: "Points",
+      render: (data) => data.points,
+    },
+    {
+      key: "isApproved",
+      title: "Status",
+      render: (data) => (data.isApproved ? "Approved" : "Pending"),
+    },
+    {
+      key: "actions",
+      title: "Actions",
+      render: (record) => <ColumnActions record={record} />,
+    },
+  ];
+
+  const ColumnActions = (props) => {
+    return (
+      <div className="flex justify-around">
+        <QrcodeOutlined
+          title="View"
+          style={innerTableActionBtnDesign}
+          onClick={() => {
+            GenerateHelper(props.record.productId);
+          }}
+        />
+      </div>
+    );
+  };
+
+  const onCloseDrawer = () => {
+    setActions({ drawer: false });
+    setValue({ drawerValue: { qrId: "" } });
+  };
 
   console.log({ products });
 
@@ -99,6 +156,12 @@ export const GenerateQr = () => {
       <div className="border-2 mt-5">
         <DataTable usersData={products} columns={columns} loading={loading} />
       </div>
+      <DrawerComp
+        title={"QR Code"}
+        visible={drawer}
+        onCloseDrawer={onCloseDrawer}
+        data={drawerValue}
+      />
     </div>
   );
 };

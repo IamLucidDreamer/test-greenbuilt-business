@@ -1,10 +1,12 @@
 import React, { useEffect, useReducer } from "react";
 import { DataTable } from "../components/table/Index";
-import { columns } from "./data/productTableColumns";
 import ActionButtons from "../components/actionsButtons/Index";
 import axios from "../../appConfig/httpHelper";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { DrawerComp } from "./components/Drawer";
+import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
+import { innerTableActionBtnDesign } from "../components/styles/innerTableActions";
 
 export const Products = () => {
   const navigate = useNavigate();
@@ -36,10 +38,10 @@ export const Products = () => {
 
   const [value, setValue] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
-    { products: [], allProducts: [] }
+    { products: [], allProducts: [], drawerValue: {} }
   );
 
-  const { products, allProducts } = value;
+  const { products, allProducts, drawerValue } = value;
 
   // Functions Used for Different Data
   const requestsCaller = () => {
@@ -74,11 +76,92 @@ export const Products = () => {
       .finally(setActions({ loadingAllProducts: true }));
   };
 
+  const DeleteItem = (productId) => {
+    axios
+      .delete(`/product/delete/${productId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        toast.success(res.data.message);
+        requestsCaller();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Product Deletion Failed");
+      });
+  };
+
   useEffect(() => requestsCaller(), []);
 
-  const addNewProduct = () => console.log("New Product");
+  const columns = [
+    {
+      key: "title",
+      title: "Title",
+      render: (data) => data.title,
+    },
+    {
+      key: "packagingType",
+      title: "Packaging Type",
+      render: (data) => data.packagingType,
+    },
+    {
+      key: "industryType",
+      title: "Industry Type",
+      render: (data) => data.industryType,
+    },
+    {
+      key: "uom",
+      title: "UOM",
+      render: (data) => data.uom,
+    },
+    {
+      key: "description",
+      title: "Description",
+      render: (data) => data.description,
+    },
+    {
+      key: "points",
+      title: "Points",
+      render: (data) => data.points,
+    },
+    {
+      key: "isApproved",
+      title: "Status",
+      render: (data) => (data.isApproved ? "Approved" : "Pending"),
+    },
+    {
+      key: "actions",
+      title: "Actions",
+      render: (record) => <ColumnActions record={record} />,
+    },
+  ];
 
-  console.log({ products });
+  const ColumnActions = (props) => {
+    return (
+      <div className="flex justify-around">
+        <EyeOutlined
+          title="View"
+          style={innerTableActionBtnDesign}
+          onClick={() => {
+            setActions({ drawer: true });
+            setValue({ drawerValue: props?.record });
+          }}
+        />
+        <DeleteOutlined
+          title="Ban"
+          style={innerTableActionBtnDesign}
+          onClick={() => DeleteItem(props?.record?.productId)}
+        />
+      </div>
+    );
+  };
+
+  const addNewProduct = () => navigate("/newproduct");
+
+  const onCloseDrawer = () => {
+    setActions({ drawer: false });
+    setValue({ drawerValue: {} });
+  };
 
   return (
     <div className="">
@@ -91,6 +174,7 @@ export const Products = () => {
         showExportDataButton={true}
         exportDataFunction={getAllProducts}
         totalItems={allProducts}
+        csvName={"Products.csv"}
         loadingItems={loadingAllProducts}
         downloadItems={downloadAllProducts}
         showAddNewButton={true}
@@ -98,6 +182,14 @@ export const Products = () => {
       />
       <div className="border-2 mt-5">
         <DataTable usersData={products} columns={columns} loading={loading} />
+      </div>
+      <div>
+        <DrawerComp
+          title={"Product Details"}
+          visible={drawer}
+          onCloseDrawer={onCloseDrawer}
+          data={drawerValue}
+        />
       </div>
     </div>
   );

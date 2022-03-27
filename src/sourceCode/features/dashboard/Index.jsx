@@ -7,8 +7,7 @@ import {
   FundProjectionScreenOutlined,
   FileOutlined,
   HistoryOutlined,
-  UserOutlined,
-  DownOutlined,
+  FormOutlined,
 } from "@ant-design/icons";
 
 import Logo from "../../assets/logoGreenbuilt.png";
@@ -78,6 +77,14 @@ export const Dashboard = () => {
           </Menu.Item>
           <Menu.Item
             key="5"
+            icon={<FormOutlined style={{ fontSize: "18px" }} />}
+            style={{ fontSize: "18px", display: "flex", color: "#fff" }}
+            onClick={() => navigate("/business/generationplan")}
+          >
+            Points Request
+          </Menu.Item>
+          <Menu.Item
+            key="6"
             icon={<FileOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
             onClick={() => navigate("/business/documents")}
@@ -85,7 +92,7 @@ export const Dashboard = () => {
             Documents
           </Menu.Item>
           <Menu.Item
-            key="6"
+            key="7"
             icon={<HistoryOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
             onClick={() => navigate("/business/history")}

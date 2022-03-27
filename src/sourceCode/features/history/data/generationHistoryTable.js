@@ -1,42 +1,23 @@
 import react from "react";
 import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { innerTableActionBtnDesign } from "../../components/styles/innerTableActions";
+import QRCode from "react-qr-code";
 
 export const columns = [
   {
-    key: "title",
-    title: "Product Title",
-    render: (data) => console.log(data),
+    key: "qrId",
+    title: "QR Id",
+    render: (data) => data.qrId,
   },
   {
-    key: "packagingType",
-    title: "Packaging Type",
-    render: (data) => data.packagingType,
+    key: "isRedeemed",
+    title: "Redeemed",
+    render: (data) => (data.isRedeemed ? "True" : "False"),
   },
   {
-    key: "industryType",
-    title: "Industry Type",
-    render: (data) => data.industryType,
-  },
-  {
-    key: "uom",
-    title: "UOM",
-    render: (data) => data.uom,
-  },
-  {
-    key: "description",
-    title: "Description",
-    render: (data) => data.description,
-  },
-  {
-    key: "points",
-    title: "Points",
-    render: (data) => data.points,
-  },
-  {
-    key: "isApproved",
-    title: "Status",
-    render: (data) => (data.isApproved ? "Approved" : "Pending"),
+    key: "qrCode",
+    title: "QR Code",
+    render: (data) => <QRCode value={data.qrId} size={150} />,
   },
   {
     key: "actions",
