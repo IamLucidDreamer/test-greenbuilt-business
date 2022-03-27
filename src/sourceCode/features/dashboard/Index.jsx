@@ -79,7 +79,7 @@ export const Dashboard = () => {
             key="5"
             icon={<FormOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#fff" }}
-            onClick={() => navigate("/business/generationplan")}
+            onClick={() => navigate("/business/requestpoints")}
           >
             Points Request
           </Menu.Item>

@@ -18,6 +18,7 @@ import { GenerateQr } from "../generateQr/Index";
 import { Documents } from "../documents/Index";
 import { History } from "../history/Index";
 import { GenerationPlan } from "../generationPlan/Index";
+import { RequestPoints } from "../requestPoints/Index";
 
 export const Navigation = () => {
   const user = useSelector((state) => state.user);
@@ -42,6 +43,7 @@ export const Navigation = () => {
             <Route path="product" element={<Products />} />
             <Route path="generateqr" element={<GenerateQr />} />
             <Route path="generationplan" element={<GenerationPlan />} />
+            <Route path="requestpoints" element={<RequestPoints />} />
             <Route path="documents" element={<Documents />} />
             <Route path="history" element={<History />} />
           </Route>
