@@ -19,17 +19,4 @@ export const columns = [
     title: "QR Code",
     render: (data) => <QRCode value={data.qrId} size={150} />,
   },
-  {
-    key: "actions",
-    title: "Actions",
-    render: (record) => (
-      <div className="flex items-center justify-around">
-        <EyeOutlined
-          title="View"
-          style={innerTableActionBtnDesign}
-          onClick={() => {}}
-        />
-      </div>
-    ),
-  },
 ];

@@ -90,6 +90,7 @@ export const GenerationHistory = () => {
         refreshFunction={requestsCaller}
         showExportDataButton={true}
         exportDataFunction={getAllProducts}
+        csvName={"GenerationHistory.csv"}
         totalItems={allProducts}
         loadingItems={loadingAllProducts}
         downloadItems={downloadAllProducts}

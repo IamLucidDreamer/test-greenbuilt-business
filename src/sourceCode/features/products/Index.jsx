@@ -47,7 +47,7 @@ export const Products = () => {
   const requestsCaller = () => {
     setActions({ loading: true });
     axios
-      .get("/product/get-all/corporate", {
+      .get("/product/get-all/corporate?limit=50&offset=0", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -62,7 +62,7 @@ export const Products = () => {
   const getAllProducts = () => {
     setActions({ loadingAllProducts: true });
     axios
-      .get("/product/get-all/corporate", {
+      .get("/product/get-all/corporate?limit=50&offset=0", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

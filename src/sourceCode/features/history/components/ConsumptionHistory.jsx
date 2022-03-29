@@ -89,6 +89,7 @@ export const ConsumptionHistory = () => {
         refreshFunction={requestsCaller}
         showExportDataButton={true}
         exportDataFunction={getAllProducts}
+        csvName={"ConsumptionHistory.csv"}
         totalItems={allProducts}
         loadingItems={loadingAllProducts}
         downloadItems={downloadAllProducts}
