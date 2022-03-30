@@ -19,6 +19,7 @@ import { Documents } from "../documents/Index";
 import { History } from "../history/Index";
 import { GenerationPlan } from "../generationPlan/Index";
 import { RequestPoints } from "../requestPoints/Index";
+import { NotApproved } from "../auth/notApproved/Index";
 
 export const Navigation = () => {
   const user = useSelector((state) => state.user);
@@ -33,6 +34,7 @@ export const Navigation = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/notapproved" element={<NotApproved />} />
 
       {/* Handling the Business User Routes */}
 

@@ -21,7 +21,11 @@ export const SignUp = () => {
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token && user.role === 2) {
-      navigate("/business/dashboard");
+      if (user.isApproved) {
+        navigate("/business/dashboard");
+      } else {
+        navigate("notapproved");
+      }
     }
   }, [user]);
 
