@@ -1,20 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.7539df53.css",
-    "main.js": "/static/js/main.4e1e9b96.js",
+    "main.css": "/static/css/main.326bde44.css",
+    "main.js": "/static/js/main.58f84e80.js",
     "static/js/787.d729b48e.chunk.js": "/static/js/787.d729b48e.chunk.js",
     "static/media/bp2.png": "/static/media/bp2.7919b4a2613ce74b18b2.png",
+    "static/media/signupBg.jpg": "/static/media/signupBg.e551b6796b1c24e65641.jpg",
     "static/media/mobile.png": "/static/media/mobile.4ae21a83f3081608b77e.png",
+    "static/media/loginBg.jpg": "/static/media/loginBg.b6b6650f9f354567df2a.jpg",
+    "static/media/heroBg.jpg": "/static/media/heroBg.0fb4f4ad0069c582a6bf.jpg",
     "static/media/greenbuiltpurple.png": "/static/media/greenbuiltpurple.51564b0138320789343d.png",
     "static/media/logoGreenbuilt.png": "/static/media/logoGreenbuilt.a7a45d8973397145c087.png",
     "static/media/REWARD.png": "/static/media/REWARD.e88fd41a91299416b2fc.png",
     "index.html": "/index.html",
-    "main.7539df53.css.map": "/static/css/main.7539df53.css.map",
-    "main.4e1e9b96.js.map": "/static/js/main.4e1e9b96.js.map",
+    "main.326bde44.css.map": "/static/css/main.326bde44.css.map",
+    "main.58f84e80.js.map": "/static/js/main.58f84e80.js.map",
     "787.d729b48e.chunk.js.map": "/static/js/787.d729b48e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7539df53.css",
-    "static/js/main.4e1e9b96.js"
+    "static/css/main.326bde44.css",
+    "static/js/main.58f84e80.js"
   ]
 }
