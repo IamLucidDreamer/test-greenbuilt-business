@@ -38,12 +38,12 @@ export const SignUp = () => {
   };
 
   return (
-    <div>
-      <div className="min-h-screen bg-gradient-to-br from-[#017f02] to-[#06788f] flex items-center justify-center">
-        <div className="w-9/12 md:w-1/2 lg:w-1/3 bg-white rounded-lg p-4 max-h-screen overflow-y-scroll">
-          <img src={Logo} className="w-9/12 mx-auto" alt="" />
-          <h1 className="text-xs text-purple-1 pt-3 text-center">
-            SignUp with Credentials
+    <div className="bg-signupBg bg-no-repeat bg-cover bg-center">
+      <img src={Logo} className="w-60 mx-auto fixed top-2 left-2 " alt="" />
+      <div className="min-h-screen bg-gradient-to-br from-purple-1 to-transparent flex items-center justify-end">
+        <div className="w-11/12 sm:w-9/12 md:w-2/3 lg:w-1/3 bg-white rounded-3xl shadow-xl px-6 py-8 mx-auto sm:mr-8 md:mr-16 lg:mr-24 xl:mr-32">
+          <h1 className="text-3xl font-bold text-purple-1 pt-3 text-left">
+            Come on Aboard ...
           </h1>
           {form === 1 || form === 2 ? (
             <SendOtp
@@ -67,9 +67,9 @@ export const SignUp = () => {
               businessPhone={businessPhone}
             />
           ) : null}
-          <h1 className="text-xs text-purple-1 pt-2 text-center">
+          <h1 className="text-base font-normal text-purple-1 text-left">
             Already have an account ?{" "}
-            <Link to="../login" className="font-bold hover:underline">
+            <Link to="../login" className="underline hover:text-purple-1">
               {" "}
               Log In
             </Link>

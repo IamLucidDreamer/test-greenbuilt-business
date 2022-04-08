@@ -3,6 +3,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { CountryCodes } from "../data/countryCodes";
 import { toast } from "react-toastify";
+import { ArrowRightOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 // Firebase Imports
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
@@ -63,28 +65,22 @@ export const SendOtp = (props) => {
 
   return (
     <form className="" onSubmit={formik.handleSubmit}>
-      <div className="my-2 flex flex-col">
-        <label className="text-sm text-purple-1 py-1.5 font-semibold">
-          Industry / Business Name
-        </label>
+      <div className="my-5 flex flex-col">
         <input
           type="text"
           autocapitalize="word"
-          placeholder="Name"
-          className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
+          placeholder="Industry / Business Name"
+          className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
           {...formik.getFieldProps("name")}
         />
         {formik.touched.name && formik.errors.name ? (
           <div>{formik.errors.name}</div>
         ) : null}
       </div>
-      <div className="my-2 flex flex-col">
-        <label className="text-sm text-purple-1 py-1.5 font-semibold">
-          Phone Number
-        </label>
+      <div className="my-5 flex flex-col">
         <div className="flex w-full ">
           <select
-            className="w-3/12 p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1 mr-2"
+            className="w-4/12 p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1 mr-4"
             {...formik.getFieldProps("countryCode")}
           >
             <option value={"+91"}>India</option>
@@ -94,7 +90,7 @@ export const SendOtp = (props) => {
           </select>
           <input
             placeholder="Phone Number"
-            className="w-full p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
+            className="w-full p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
             type="tel"
             {...formik.getFieldProps("phoneNumber")}
           />
@@ -108,15 +104,24 @@ export const SendOtp = (props) => {
           ) : null}
         </div>
       </div>
-      <div className="flex justify-center items-center p-1">
-        <div id="recaptcha-container"></div>
+      <h1 className="text-base font-normal text-purple-1 text-left m-0">
+        By Signing Up you are agreeing to our{" "}
+        <Link to="" className="underline hover:text-purple-1">
+          {" "}
+          Terms & Conditions
+        </Link>{" "}
+        .
+      </h1>
+      <div className="flex justify-center items-center">
+        <div id="recaptcha-container" className="p-1"></div>
       </div>
       {props.formNumber === 1 ? (
         <button
           type="submit"
-          className="w-full py-1.5 my-3 bg-purple-1 border-2 border-purple-1 focus:outline-none hover:bg-green-1 rounded text-base text-white font-bold hover:text-purple-1 duration-500"
+          className="w-48 py-3 px-6 my-5 bg-purple-1 border-2 border-purple-1 focus:outline-none rounded-2xl text-xl text-left text-white font-bold group duration-500 flex justify-evenly items-center"
         >
-          SignUp
+          Send OTP
+          <ArrowRightOutlined className="group-hover:translate-x-1.5 duration-500" />
         </button>
       ) : null}
     </form>
