@@ -13,5 +13,12 @@
 }
 
 .ant-layout-sider-trigger {
-  background-color: rgba(141, 141, 141, 0.1);
+  background-color: #140035;
+  border-bottom-right-radius: 20px;
+}
+
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #140035;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }

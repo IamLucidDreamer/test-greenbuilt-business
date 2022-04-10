@@ -21,18 +21,20 @@ export const HeaderElement = () => {
   return (
     <Header
       style={{
-        paddingLeft: "25px",
-        backgroundColor: "#140035",
+        paddingLeft: "35px",
+        backgroundColor: "#fff",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        zIndex:1,
+        boxShadow: "0px 1px 8px",
       }}
     >
-      <h1 className="text-white text-base m-0 font-bold">Dashboard</h1>
+      <h1 className="text-purple-1 text-xl m-0">Dashboard</h1>
       <div className="flex">
         <Dropdown overlay={DropDownMenu} className="cursor-pointer">
           <div className="flex items-center">
-            <h1 className="text-white text-base pr-3 m-0 font-bold">
+            <h1 className="text-purple-1 text-base pr-3 m-0">
               {user.name}
             </h1>
 
@@ -44,7 +46,7 @@ export const HeaderElement = () => {
                   borderRadius: 14,
                 }}
               />
-              <DownOutlined style={{ color: "#fff", paddingLeft: 8 }} />,
+              <DownOutlined style={{ color: "#140035", paddingLeft: 8 }} />
             </div>
           </div>
         </Dropdown>

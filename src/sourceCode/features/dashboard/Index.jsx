@@ -22,31 +22,31 @@ const { Content, Sider } = Layout;
 export const Dashboard = () => {
   const navigate = useNavigate();
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh", maxHeight:"100vh",backgroundColor:"#e1e1e1" }}>
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
-        style={{ backgroundColor: "#140035" }}
+        style={{ backgroundColor: "#fff", borderRightWidth:"2px" , borderColor:"#140035" ,borderTopRightRadius:"20px", borderBottomRightRadius:"30px" , boxShadow: "1px 1px 6px", zIndex:2}}
       >
         <img
           src={Logo}
           alt=""
-          className={`mx-auto w-44 my-1.5 ${collapsed ? "hidden" : "block"}`}
+          className={`mx-auto my-1.5 duration-300 ${collapsed ? "w-0" : "w-44"}`}
         />
         <Menu
           theme="dark"
           defaultSelectedKeys={["1"]}
           mode="inline"
-          style={{ backgroundColor: "#140035" }}
+          style={{ backgroundColor: "#fff", marginTop:"10px", }}
         >
           <Menu.Item
             key="1"
             icon={<DashboardOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#fff" }}
+            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
             onClick={() => navigate("/business/dashboard")}
           >
             Dashboard
@@ -54,7 +54,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="2"
             icon={<UnorderedListOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#fff" }}
+            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
             onClick={() => navigate("/business/product")}
           >
             Products
@@ -62,7 +62,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="3"
             icon={<QrcodeOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#fff" }}
+            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
             onClick={() => navigate("/business/generateqr")}
           >
             Generate QR
@@ -70,7 +70,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="4"
             icon={<FundProjectionScreenOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#fff" }}
+            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
             onClick={() => navigate("/business/generationplan")}
           >
             Generation Plan
@@ -78,7 +78,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="5"
             icon={<FormOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#fff" }}
+            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
             onClick={() => navigate("/business/requestpoints")}
           >
             Points Request
@@ -86,7 +86,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="6"
             icon={<FileOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#fff" }}
+            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
             onClick={() => navigate("/business/documents")}
           >
             Documents
@@ -94,7 +94,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="7"
             icon={<HistoryOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#fff" }}
+            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
             onClick={() => navigate("/business/history")}
           >
             History
@@ -103,7 +103,7 @@ export const Dashboard = () => {
       </Sider>
       <Layout className="site-layout">
         <HeaderElement />
-        <Content style={{ margin: "0 16px" }}>
+        <Content style={{ padding: "8px 16px", backgroundColor:"#e1e1e1" }}>
           {/* For Managing Component Change within the Nested Routes Outlet is used*/}
           <Outlet />
         </Content>

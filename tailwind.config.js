@@ -20,6 +20,7 @@ module.exports = {
         log: "url('../src/assets/desk.png')",
         loginBg: "url('../src/sourceCode/assets/images/loginBg.jpg')",
         signupBg: "url('../src/sourceCode/assets/images/signupBg.jpg')",
+        dashBg:"url('https://static.vecteezy.com/system/resources/thumbnails/001/886/903/small/light-blue-green-blurred-background-vector.jpg')"
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
