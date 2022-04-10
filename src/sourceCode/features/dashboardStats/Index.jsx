@@ -37,12 +37,11 @@ export const DashboardStats = () => {
           type="primary"
           loading={loading}
           onClick={() => dataLoader()}
-          style={{ backgroundColor: "#140035" }}
         >
-          <ReloadOutlined />
+          <ReloadOutlined style={{margin:"0"}} />
         </Button>
       </div>
-      <div className="flex flex-wrap items-center justify-around">
+      <div className="flex flex-wrap items-center mt-10 gap-8">
         <StatsCard title={"Points"} stat={stats.availablePoints} icon={1} />
         <StatsCard
           title={"Total Products"}

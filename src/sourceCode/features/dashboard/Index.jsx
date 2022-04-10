@@ -25,12 +25,13 @@ export const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
-    <Layout style={{ minHeight: "100vh", maxHeight:"100vh",backgroundColor:"#e1e1e1" }}>
+    
+    <Layout style={{ minHeight: "100vh", backgroundColor:"#e1e1e1" }}>
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
-        style={{ backgroundColor: "#fff", borderRightWidth:"2px" , borderColor:"#140035" ,borderTopRightRadius:"20px", borderBottomRightRadius:"30px" , boxShadow: "1px 1px 6px", zIndex:2}}
+        style={{ backgroundColor: "#fff" , boxShadow: "1px 1px 6px", zIndex:2}}
       >
         <img
           src={Logo}
@@ -103,11 +104,12 @@ export const Dashboard = () => {
       </Sider>
       <Layout className="site-layout">
         <HeaderElement />
-        <Content style={{ padding: "8px 16px", backgroundColor:"#e1e1e1" }}>
+        <Content style={{ padding: "8px 24px", backgroundColor:"#e1e1e1" }}>
           {/* For Managing Component Change within the Nested Routes Outlet is used*/}
           <Outlet />
         </Content>
       </Layout>
     </Layout>
+ 
   );
 };

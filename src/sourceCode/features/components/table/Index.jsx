@@ -12,7 +12,7 @@ export const DataTable = ({
   pagination,
 }) => {
   return (
-    <div className="overflow-x-scroll">
+    <div className="shadow-lg mb-8">
       <Table
         columns={columns}
         dataSource={usersData}

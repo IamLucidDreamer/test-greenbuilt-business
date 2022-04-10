@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export const ActionButtons = (props) => {
   const navigate = useNavigate();
   return (
-    <div className="mt-4 flex items-center justify-between">
+    <div className="my-6 flex items-center justify-between">
       <h1 className="text-2xl font-bold text-purple-1 m-0">
         {props.pageTitle}
       </h1>
