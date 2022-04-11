@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Helpers
 import { authenticated } from "../../utils/auth";
@@ -13,21 +13,35 @@ import { SignUp } from "../auth/signUp/Index";
 import { Products } from "../products/Index";
 import { Dashboard } from "../dashboard/Index";
 import { DashboardStats } from "../dashboardStats/Index";
-import { AddNewProduct } from "../addNewProduct/Index";
 import { GenerateQr } from "../generateQr/Index";
 import { Documents } from "../documents/Index";
 import { History } from "../history/Index";
 import { GenerationPlan } from "../generationPlan/Index";
-import { RequestPoints } from "../requestPoints/Index";
+import { ActualConsumption } from "../actualConsumption/Index";
 import { NotApproved } from "../auth/notApproved/Index";
+import {
+  getIndustryType,
+  getPackagingType,
+  getSourceType,
+  getUom,
+} from "../../store/actions/statics";
 
 export const Navigation = () => {
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.user.auth);
   const token = JSON.parse(localStorage.getItem("jwt"));
 
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const handleUnAuth = () => navigate("/login");
+
+  useEffect(() => {
+    dispatch(getIndustryType());
+    dispatch(getSourceType());
+    dispatch(getUom());
+    dispatch(getPackagingType());
+  }, []);
 
   return (
     <Routes>
@@ -45,11 +59,10 @@ export const Navigation = () => {
             <Route path="product" element={<Products />} />
             <Route path="generateqr" element={<GenerateQr />} />
             <Route path="generationplan" element={<GenerationPlan />} />
-            <Route path="requestpoints" element={<RequestPoints />} />
+            <Route path="actualconsumption" element={<ActualConsumption />} />
             <Route path="documents" element={<Documents />} />
             <Route path="history" element={<History />} />
           </Route>
-          <Route path="/newproduct" element={<AddNewProduct />} />
         </>
       ) : (
         () => handleUnAuth()

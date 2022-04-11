@@ -25,24 +25,25 @@ export const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
-    
-    <Layout style={{ minHeight: "100vh", backgroundColor:"#e1e1e1" }}>
+    <Layout style={{ minHeight: "100vh", backgroundColor: "#e1e1e1" }}>
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
-        style={{ backgroundColor: "#fff" , boxShadow: "1px 1px 6px", zIndex:2}}
+        style={{ backgroundColor: "#fff", boxShadow: "1px 1px 6px", zIndex: 2 }}
       >
         <img
           src={Logo}
           alt=""
-          className={`mx-auto my-1.5 duration-300 ${collapsed ? "w-0" : "w-44"}`}
+          className={`mx-auto my-1.5 duration-300 ${
+            collapsed ? "w-0" : "w-44"
+          }`}
         />
         <Menu
           theme="dark"
           defaultSelectedKeys={["1"]}
           mode="inline"
-          style={{ backgroundColor: "#fff", marginTop:"10px", }}
+          style={{ backgroundColor: "#fff", marginTop: "10px" }}
         >
           <Menu.Item
             key="1"
@@ -80,9 +81,9 @@ export const Dashboard = () => {
             key="5"
             icon={<FormOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#140035" }}
-            onClick={() => navigate("/business/requestpoints")}
+            onClick={() => navigate("/business/actualconsumption")}
           >
-            Points Request
+            Actual Consumption
           </Menu.Item>
           <Menu.Item
             key="6"
@@ -104,12 +105,11 @@ export const Dashboard = () => {
       </Sider>
       <Layout className="site-layout">
         <HeaderElement />
-        <Content style={{ padding: "8px 24px", backgroundColor:"#e1e1e1" }}>
+        <Content style={{ padding: "8px 24px", backgroundColor: "#e1e1e1" }}>
           {/* For Managing Component Change within the Nested Routes Outlet is used*/}
           <Outlet />
         </Content>
       </Layout>
     </Layout>
- 
   );
 };
