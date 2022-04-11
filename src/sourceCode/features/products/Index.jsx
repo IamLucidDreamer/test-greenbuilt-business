@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { DataTable } from "../components/table/Index";
 import ActionButtons from "../components/actionsButtons/Index";
 import axios from "../../appConfig/httpHelper";
@@ -7,10 +7,11 @@ import { toast } from "react-toastify";
 import { DrawerComp } from "./components/Drawer";
 import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { innerTableActionBtnDesign } from "../components/styles/innerTableActions";
+import { AddNewProduct } from "./components/AddNewProduct";
 
 export const Products = () => {
-  const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem("jwt"));
+  const [showAdd, setShowAdd] = useState(false);
 
   // Declaring the States Required for the Working of the Component
   const [actions, setActions] = useReducer(
@@ -156,7 +157,8 @@ export const Products = () => {
     );
   };
 
-  const addNewProduct = () => navigate("/newproduct");
+  const addNewProduct = () => setShowAdd(true);
+  const backAddNewProduct = () => setShowAdd(false);
 
   const onCloseDrawer = () => {
     setActions({ drawer: false });
@@ -164,33 +166,43 @@ export const Products = () => {
   };
 
   return (
-    <div className="">
-      <ActionButtons
-        pageTitle={"Products"}
-        showTrashButton={false}
-        showTrashFunction={""}
-        showReFreshButton={true}
-        refreshFunction={requestsCaller}
-        showExportDataButton={true}
-        exportDataFunction={getAllProducts}
-        totalItems={allProducts}
-        csvName={"Products.csv"}
-        loadingItems={loadingAllProducts}
-        downloadItems={downloadAllProducts}
-        showAddNewButton={true}
-        addNewFunction={addNewProduct}
-      />
-      <div className="border-2 mt-5">
-        <DataTable usersData={products} columns={columns} loading={loading} />
-      </div>
-      <div>
-        <DrawerComp
-          title={"Product Details"}
-          visible={drawer}
-          onCloseDrawer={onCloseDrawer}
-          data={drawerValue}
-        />
-      </div>
-    </div>
+    <>
+      {showAdd ? (
+        <AddNewProduct back={backAddNewProduct} />
+      ) : (
+        <div className="">
+          <ActionButtons
+            pageTitle={"Products"}
+            showTrashButton={false}
+            showTrashFunction={""}
+            showReFreshButton={true}
+            refreshFunction={requestsCaller}
+            showExportDataButton={true}
+            exportDataFunction={getAllProducts}
+            totalItems={allProducts}
+            csvName={"Products.csv"}
+            loadingItems={loadingAllProducts}
+            downloadItems={downloadAllProducts}
+            showAddNewButton={true}
+            addNewFunction={addNewProduct}
+          />
+          <div className="border-2 mt-5">
+            <DataTable
+              usersData={products}
+              columns={columns}
+              loading={loading}
+            />
+          </div>
+          <div>
+            <DrawerComp
+              title={"Product Details"}
+              visible={drawer}
+              onCloseDrawer={onCloseDrawer}
+              data={drawerValue}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };

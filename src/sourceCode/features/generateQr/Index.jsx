@@ -37,38 +37,22 @@ export const GenerateQr = () => {
   const requestsCaller = () => {
     setActions({ loading: true });
     axios
-      .get("/product/get-all/corporate/?limit=50&offset=0", {
+      .get("/product/get-all/corporate/?limit=500&offset=0", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        setValue({ products: res.data.data });
+        setValue({ products: res.data.data.filter((val) => val.isApproved === true) });
       })
       .catch((err) => console.log(err))
       .finally(setActions({ loading: false }));
   };
 
-  const GenerateHelper = (productId) => {
-    axios
-      .post(
-        `/qr/generate/${productId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        toast.success(res.data.message);
-        setValue({ drawerValue: res.data.data });
-        setActions({ drawer: true });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("QR Code Generation Failed");
-      });
+  const GenerateHelper = (record) => {
+      setActions({ drawer: true });
+      setValue({ drawerValue: record });
+      
   };
 
   useEffect(() => requestsCaller(), []);
@@ -123,7 +107,7 @@ export const GenerateQr = () => {
           title="View"
           style={innerTableActionBtnDesign}
           onClick={() => {
-            GenerateHelper(props.record.productId);
+            GenerateHelper(props.record);
           }}
         />
       </div>
