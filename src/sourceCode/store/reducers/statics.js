@@ -11,7 +11,7 @@ const initialValues = {
   uom: [],
   packagingType: [],
 };
-const userReducer = (state = initialValues, action) => {
+const staticsReducer = (state = initialValues, action) => {
   switch (action.type) {
     case INDUSTRY_TYPE: {
       return {
@@ -42,4 +42,4 @@ const userReducer = (state = initialValues, action) => {
   }
 };
 
-export default userReducer;
+export default staticsReducer;

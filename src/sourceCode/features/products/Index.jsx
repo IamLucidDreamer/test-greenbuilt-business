@@ -54,6 +54,7 @@ export const Products = () => {
         },
       })
       .then((res) => {
+        console.log(res.data.data);
         setValue({ products: res.data.data });
       })
       .catch((err) => console.log(err))
@@ -99,6 +100,11 @@ export const Products = () => {
       key: "title",
       title: "Title",
       render: (data) => data.title,
+    },
+    {
+      key: "productCode",
+      title: "Product Code",
+      render: (data) => data.productCode,
     },
     {
       key: "packagingType",

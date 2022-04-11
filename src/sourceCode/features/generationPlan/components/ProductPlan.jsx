@@ -25,23 +25,7 @@ export const ProductPlan = () => {
 
   const handleCreateMonthlyPlan = (values) => {
     const token = JSON.parse(localStorage.getItem("jwt"));
-    // const data = {
-    //   data: [
-    //     {
-    //       sourceType: "Wind",
-    //       ownCaptive: 5000,
-    //       groupCaptive: 10000,
-    //       thirdPartyPurchase: 4500,
-    //     },
-    //     {
-    //       sourceType: "Hydro",
-    //       ownCaptive: 0,
-    //       groupCaptive: 9000,
-    //       thirdPartyPurchase: 0,
-    //     },
-    //   ],
-    // };
-    // console.log(data);
+
     const data = {};
     axios
       .post("/monthly-plan/product/create", data, {
@@ -59,55 +43,43 @@ export const ProductPlan = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white p-6 shadow-lg rounded-3xl ">
       <h1 className="text-2xl text-purple-1 mt-2 font-bold">Product Plan</h1>
       <form className="" onSubmit={formik.handleSubmit}>
-        <div className="my-2 flex flex-col">
-          <label className="text-sm text-purple-1 py-1.5 font-semibold">
-            Product Name
-          </label>
+        <div className="my-5 flex flex-col">
           <input
             placeholder="Product Name"
-            className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
+            className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
             {...formik.getFieldProps("productName")}
           />
           {formik.touched.productName && formik.errors.productName ? (
             <div> {formik.errors.productName}</div>
           ) : null}
         </div>
-        <div className="my-2 flex flex-col">
-          <label className="text-sm text-purple-1 py-1.5 font-semibold">
-            Unit of Measurement
-          </label>
+        <div className="my-5 flex flex-col">
           <input
             placeholder="Unit of Measurement"
-            className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
+            className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
             {...formik.getFieldProps("uom")}
           />
           {formik.touched.uom && formik.errors.uom ? (
             <div>{formik.errors.uom}</div>
           ) : null}
         </div>
-        <div className="my-2 flex flex-col">
-          <label className="text-sm text-purple-1 py-1.5 font-semibold">
-            Total Production
-          </label>
+        <div className="my-5 flex flex-col">
           <input
             placeholder="Total Production"
-            className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
+            className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
             {...formik.getFieldProps("totalProduction")}
           />
           {formik.touched.totalProduction && formik.errors.totalProduction ? (
             <div>{formik.errors.totalProduction}</div>
           ) : null}
         </div>
-        <div className="my-2 flex flex-col">
-          <label className="text-sm text-purple-1 py-1.5 font-semibold">
-            QR Code Required
-          </label>
+        <div className="my-5 flex flex-col">
           <input
             placeholder="QR Code Required"
-            className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
+            className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
             {...formik.getFieldProps("qrCodeRequired")}
           />
           {formik.touched.qrCodeRequired && formik.errors.qrCodeRequired ? (
@@ -116,9 +88,9 @@ export const ProductPlan = () => {
         </div>
         <button
           type="submit"
-          className="w-full py-1.5 my-3 bg-purple-1 border-2 border-purple-1 focus:outline-none hover:bg-green-1 rounded text-base text-white font-bold hover:text-purple-1 duration-500"
+          className="w-full py-3 px-6 my-5 bg-purple-1 border-2 border-purple-1 focus:outline-none rounded-2xl text-xl text-left text-white font-bold group duration-500 flex justify-evenly items-center hover:shadow-lg shadow-purple-1"
         >
-          Save
+          Save Plan
         </button>
       </form>
     </div>

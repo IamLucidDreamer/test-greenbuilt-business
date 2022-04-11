@@ -4,8 +4,13 @@ import * as Yup from "yup";
 import axios from "../../../appConfig/httpHelper";
 import { toast } from "react-toastify";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 
 export function AddNewProduct(props) {
+  const industryType = useSelector((state) => state.statics.industryType);
+  const uom = useSelector((state) => state.statics.uom);
+  const packagingType = useSelector((state) => state.statics.packagingType);
+
   //Create Products Error With Points providing String in place of number
   const formik = useFormik({
     initialValues: {
@@ -22,6 +27,9 @@ export function AddNewProduct(props) {
       description: Yup.string().required("Required"),
       points: Yup.string().required("Required"),
       photo: Yup.string().required("Required"),
+      industryType: Yup.string().required("Required"),
+      uom: Yup.string().required("Required"),
+      packagingType: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
       values.points = 10;
@@ -42,6 +50,7 @@ export function AddNewProduct(props) {
       })
       .then((res) => {
         toast.success(res.data.message);
+        props.back();
       })
       .catch((err) => {
         toast.error(err.response.data.erro);
@@ -86,7 +95,7 @@ export function AddNewProduct(props) {
             </div>
             <div className="my-5 flex flex-col">
               <input
-                placeholder="Points"
+                placeholder="Units Required"
                 className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
                 {...formik.getFieldProps("points")}
               />
@@ -95,38 +104,56 @@ export function AddNewProduct(props) {
               ) : null}
             </div>
             <div className="my-5 flex flex-col">
-              <input
-                placeholder="Packaging Type"
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+              <select
+                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
                 {...formik.getFieldProps("packagingType")}
-              />
+              >
+                <option disabled value="">
+                  Select Packaging Type
+                </option>
+                {packagingType.map((data) => (
+                  <option value={data.name}>{data.name}</option>
+                ))}
+              </select>
               {formik.touched.packagingType && formik.errors.packagingType ? (
                 <div>{formik.errors.packagingType}</div>
               ) : null}
             </div>
             <div className="my-5 flex flex-col">
-              <input
-                placeholder="UOM"
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+              <select
+                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
                 {...formik.getFieldProps("uom")}
-              />
+              >
+                <option disabled value="">
+                  Select UOM
+                </option>
+                {uom.map((data) => (
+                  <option value={data.name}>{data.name}</option>
+                ))}
+              </select>
               {formik.touched.uom && formik.errors.uom ? (
                 <div>{formik.errors.uom}</div>
               ) : null}
             </div>
             <div className="my-5 flex flex-col">
-              <input
-                placeholder="Industry Type"
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+              <select
+                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
                 {...formik.getFieldProps("industryType")}
-              />
+              >
+                <option disabled value="">
+                  Select Industry Type
+                </option>
+                {industryType.map((data) => (
+                  <option value={data.name}>{data.name}</option>
+                ))}
+              </select>
               {formik.touched.industryType && formik.errors.industryType ? (
                 <div>{formik.errors.industryType}</div>
               ) : null}
             </div>
             <div className="my-5 flex flex-col">
               <input
-                placeholder="Points"
+                placeholder="Photo"
                 className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
                 {...formik.getFieldProps("photo")}
               />

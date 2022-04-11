@@ -1,9 +1,11 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from "redux";
 
-import user from './user'
+import user from "./user";
+import statics from "./statics";
 
 const rootReducer = combineReducers({
-	user,
-})
+  user,
+  statics,
+});
 
-export default rootReducer
+export default rootReducer;

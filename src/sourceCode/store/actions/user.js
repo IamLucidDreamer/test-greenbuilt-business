@@ -44,7 +44,17 @@ export const login =
   };
 
 export const signUpBusiness =
-  ({ name, phoneNumber, email, password, ebServiceNo, gstin, industryType }) =>
+  ({
+    name,
+    phoneNumber,
+    email,
+    password,
+    ebServiceNo,
+    gstin,
+    industryType,
+    powerPurchaseAgreement,
+    energyWheelingAgreement,
+  }) =>
   (dispatch) => {
     axios
       .post("/signUp?userType=2", {
@@ -59,6 +69,25 @@ export const signUpBusiness =
       .then((res) => {
         toast.success(res.data.message);
         dispatch(login({ email, password }));
+        const token = JSON.parse(localStorage.getItem("jwt"));
+        const formData = new FormData();
+        formData.append("title", "Power Purchase Agreement");
+        formData.append("file", powerPurchaseAgreement);
+        axios
+          .post("/document/upload/1", formData, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((res) => toast.success(res.data.message))
+          .catch((err) => console.log(err));
+        const formData1 = new FormData();
+        formData1.append("title", "Energy Wheeling Agreement");
+        formData1.append("file", energyWheelingAgreement);
+        axios
+          .post("/document/upload/1", formData1, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((res) => toast.success(res.data.message))
+          .catch((err) => console.log(err));
       })
       .catch((err) => toast.error(err.response.data.error));
   };

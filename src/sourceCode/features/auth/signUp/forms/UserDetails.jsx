@@ -10,6 +10,11 @@ export const UserDetails = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const industryType = useSelector((state) => state.statics.industryType);
+  const sourceType = useSelector((state) => state.statics.sourceType);
+  const uom = useSelector((state) => state.statics.uom);
+  const packagingType = useSelector((state) => state.statics.packagingType);
+
   // SignUp User Details Form Handling
   const formik = useFormik({
     initialValues: {
@@ -20,6 +25,8 @@ export const UserDetails = (props) => {
       ebServiceNo: "",
       industryType: "",
       gstin: "",
+      powerPurchaseAgreement: "",
+      energyWheelingAgreement: "",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Invalid email address").required("Required"),
@@ -27,6 +34,8 @@ export const UserDetails = (props) => {
       ebServiceNo: Yup.string().required("Required"),
       industryType: Yup.string().required("Required"),
       gstin: Yup.string().required("Required"),
+      powerPurchaseAgreement: Yup.string().required("Required"),
+      energyWheelingAgreement: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
       const {
@@ -37,6 +46,8 @@ export const UserDetails = (props) => {
         ebServiceNo,
         gstin,
         industryType,
+        powerPurchaseAgreement,
+        energyWheelingAgreement,
       } = values;
       dispatch(
         signUpBusiness({
@@ -47,13 +58,15 @@ export const UserDetails = (props) => {
           ebServiceNo,
           gstin,
           industryType,
+          powerPurchaseAgreement,
+          energyWheelingAgreement,
         })
       );
     },
   });
 
   return (
-    <form className="overflow-y-scroll" onSubmit={formik.handleSubmit}>
+    <form className="" onSubmit={formik.handleSubmit}>
       <h1 className="text-xl font-medium text-purple-1 text-left">
         Hello, <span className="font-bold">{props.businessName}</span>
       </h1>
@@ -97,14 +110,9 @@ export const UserDetails = (props) => {
           <option disabled value="">
             Select Industry Type
           </option>
-          <option value="Spinning">Spinning</option>
-          <option value="Weaving">Weaving</option>
-          <option selected value="Knitting">
-            Knitting
-          </option>
-          <option value="Yarn Processing">Yarn Processing</option>
-          <option value="Fabric Processing">Fabric Processing</option>
-          <option value="Garment Manufacturing">Garment Manufacturing</option>
+          {industryType.map((data) => (
+            <option value={data.name}>{data.name}</option>
+          ))}
         </select>
         {formik.touched.industryType && formik.errors.industryType ? (
           <div>{formik.errors.industryType}</div>
@@ -131,6 +139,44 @@ export const UserDetails = (props) => {
         />
         {formik.touched.password && formik.errors.password ? (
           <div>{formik.errors.password}</div>
+        ) : null}
+      </div>
+      <div className="my-5 flex flex-col">
+      <lable>Power Purchase Agreement</lable>
+        <input
+          type="file"
+          placeholer="Power Purchase Agreement"
+          className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+          onChange={(event) => {
+            console.log(event.target.files);
+            formik.setFieldValue(
+              "powerPurchaseAgreement",
+              event.currentTarget.files[0]
+            );
+          }}
+        />
+        {formik.touched.powerPurchaseAgreement &&
+        formik.errors.powerPurchaseAgreement ? (
+          <div>{formik.errors.powerPurchaseAgreement}</div>
+        ) : null}
+      </div>
+      <div className="my-5 flex flex-col">
+        <lable>Energy Wheeling Agreement</lable>
+        <input
+          type="file"
+          placeholer="Energy Wheeling Agreement"
+          className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+          onChange={(event) => {
+            console.log(event.target.files);
+            formik.setFieldValue(
+              "energyWheelingAgreement",
+              event.currentTarget.files[0]
+            );
+          }}
+        />
+        {formik.touched.energyWheelingAgreement &&
+        formik.errors.energyWheelingAgreement ? (
+          <div>{formik.errors.energyWheelingAgreement}</div>
         ) : null}
       </div>
       <button
