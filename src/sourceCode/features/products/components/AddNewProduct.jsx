@@ -32,7 +32,6 @@ export function AddNewProduct(props) {
       packagingType: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      values.points = 10;
       handleCreateProduct(values);
     },
   });
@@ -40,7 +39,7 @@ export function AddNewProduct(props) {
   const handleCreateProduct = (values) => {
     const token = JSON.parse(localStorage.getItem("jwt"));
     const data = {};
-    data.product = { ...values };
+    data.product = { ...values, points: parseFloat(values.points) };
     console.log(data);
     axios
       .post("/product/create", data, {
@@ -94,16 +93,6 @@ export function AddNewProduct(props) {
               ) : null}
             </div>
             <div className="my-5 flex flex-col">
-              <input
-                placeholder="Units Required"
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
-                {...formik.getFieldProps("points")}
-              />
-              {formik.touched.points && formik.errors.points ? (
-                <div>{formik.errors.points}</div>
-              ) : null}
-            </div>
-            <div className="my-5 flex flex-col">
               <select
                 className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
                 {...formik.getFieldProps("packagingType")}
@@ -149,6 +138,16 @@ export function AddNewProduct(props) {
               </select>
               {formik.touched.industryType && formik.errors.industryType ? (
                 <div>{formik.errors.industryType}</div>
+              ) : null}
+            </div>
+            <div className="my-5 flex flex-col">
+              <input
+                placeholder={`Units Required / ${formik.values.uom}`}
+                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+                {...formik.getFieldProps("points")}
+              />
+              {formik.touched.points && formik.errors.points ? (
+                <div>{formik.errors.points}</div>
               ) : null}
             </div>
             <div className="my-5 flex flex-col">

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { QrcodeOutlined } from "@ant-design/icons";
 import { innerTableActionBtnDesign } from "../components/styles/innerTableActions";
 import { DrawerComp } from "./components/Drawer";
+import { FilterDrawer } from "./components/FilterDrawer";
 
 export const GenerateQr = () => {
   const token = JSON.parse(localStorage.getItem("jwt"));
@@ -16,6 +17,7 @@ export const GenerateQr = () => {
     {
       drawer: false,
       loading: false,
+      filter: false,
       pagination: 15,
       trash: false,
       newProduct: false,
@@ -24,14 +26,14 @@ export const GenerateQr = () => {
     }
   );
 
-  const { drawer, loading, pagination } = actions;
+  const { drawer, loading, filter, pagination } = actions;
 
   const [value, setValue] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
-    { products: [], drawerValue: {} }
+    { products: [], drawerValue: {}, filterValue: {} }
   );
 
-  const { products, drawerValue } = value;
+  const { products, drawerValue, filterValue } = value;
 
   // Functions Used for Different Data
   const requestsCaller = () => {
@@ -43,16 +45,68 @@ export const GenerateQr = () => {
         },
       })
       .then((res) => {
-        setValue({ products: res.data.data.filter((val) => val.isApproved === true) });
+        setValue({
+          products: res.data.data.filter((val) => val.isApproved === true),
+        });
+      })
+      .catch((err) => console.log(err))
+      .finally(setActions({ loading: false }));
+  };
+
+  const getProductBySearch = (value) => {
+    setActions({ loading: true });
+    axios
+      .post(
+        "/product/search/?limit=500&offset=0",
+        {
+          key: "title",
+          value: value,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        toast.success("Search Performed Successfully.");
+        setValue({ products: res.data.data.filter((val) => val.isApproved === true), });
+      })
+      .catch((err) => console.log(err))
+      .finally(setActions({ loading: false }));
+  };
+
+  const getFilteredProduct = (value) => {
+    setActions({ loading: true });
+    const filterValue = {};
+    if (value.industryTypeSelected !== "") {
+      filterValue.industryType = value.industryTypeSelected;
+    }
+    if (value.packagingTypeSelected !== "") {
+      filterValue.packagingType = value.packagingTypeSelected;
+    }
+    if (value.uomSelected !== "") {
+      filterValue.uom = value.uomSelected;
+    }
+    console.log({ filterValue });
+    axios
+      .post("/product/get-all/query/?limit=500&offset=0", filterValue, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast.success("Filters Applied Successfully.");
+        setValue({ products: res.data.data.filter((val) => val.isApproved === true), });
+        console.log(res.data.data);
       })
       .catch((err) => console.log(err))
       .finally(setActions({ loading: false }));
   };
 
   const GenerateHelper = (record) => {
-      setActions({ drawer: true });
-      setValue({ drawerValue: record });
-      
+    setActions({ drawer: true });
+    setValue({ drawerValue: record });
   };
 
   useEffect(() => requestsCaller(), []);
@@ -119,12 +173,25 @@ export const GenerateQr = () => {
     setValue({ drawerValue: { qrId: "" } });
   };
 
+  const openFilterDrawer = () => {
+    setActions({ filter: true });
+  };
+
+  const onCloseFilterDrawer = () => {
+    setActions({ filter: false });
+    setValue({ filterValue: {} });
+  };
+
   console.log({ products });
 
   return (
     <div className="">
       <ActionButtons
         pageTitle={"Generate QR"}
+        showSearchButton={true}
+        onSearch={getProductBySearch}
+        showFilterButton={true}
+        onFilter={openFilterDrawer}
         showTrashButton={false}
         showTrashFunction={""}
         showReFreshButton={true}
@@ -146,6 +213,16 @@ export const GenerateQr = () => {
         onCloseDrawer={onCloseDrawer}
         data={drawerValue}
       />
+      <div>
+        <FilterDrawer
+          title={"Set Product Filters"}
+          visible={filter}
+          onCloseDrawer={onCloseFilterDrawer}
+          data={filterValue}
+          applyFilter={getFilteredProduct}
+          resetFilter={requestsCaller}
+        />
+      </div>
     </div>
   );
 };

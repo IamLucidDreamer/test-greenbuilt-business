@@ -5,6 +5,7 @@ import axios from "../../appConfig/httpHelper";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { DrawerComp } from "./components/Drawer";
+import { FilterDrawer } from "./components/FilterDrawer";
 import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { innerTableActionBtnDesign } from "../components/styles/innerTableActions";
 import { AddNewProduct } from "./components/AddNewProduct";
@@ -19,6 +20,7 @@ export const Products = () => {
     {
       drawer: false,
       loading: false,
+      filter: false,
       pagination: 15,
       trash: false,
       newProduct: false,
@@ -30,6 +32,7 @@ export const Products = () => {
   const {
     drawer,
     loading,
+    filter,
     pagination,
     trash,
     newProduct,
@@ -39,10 +42,10 @@ export const Products = () => {
 
   const [value, setValue] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
-    { products: [], allProducts: [], drawerValue: {} }
+    { products: [], allProducts: [], drawerValue: {}, filterValue: {} }
   );
 
-  const { products, allProducts, drawerValue } = value;
+  const { products, allProducts, drawerValue, filterValue } = value;
 
   // Functions Used for Different Data
   const requestsCaller = () => {
@@ -78,6 +81,57 @@ export const Products = () => {
       .finally(setActions({ loadingAllProducts: true }));
   };
 
+  const getProductBySearch = (value) => {
+    setActions({ loading: true });
+    axios
+      .post(
+        "/product/search",
+        {
+          key: "title",
+          value: value,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        toast.success("Search Performed Successfully.");
+        setValue({ products: res.data.data });
+      })
+      .catch((err) => console.log(err))
+      .finally(setActions({ loading: false }));
+  };
+
+  const getFilteredProduct = (value) => {
+    setActions({ loading: true });
+    const filterValue = {};
+    if (value.industryTypeSelected !== "") {
+      filterValue.industryType = value.industryTypeSelected;
+    }
+    if (value.packagingTypeSelected !== "") {
+      filterValue.packagingType = value.packagingTypeSelected;
+    }
+    if (value.uomSelected !== "") {
+      filterValue.uom = value.uomSelected;
+    }
+    console.log({ filterValue });
+    axios
+      .post("/product/get-all/query", filterValue, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast.success("Filters Applied Successfully.");
+        setValue({ products: res.data.data });
+        console.log(res.data.data);
+      })
+      .catch((err) => console.log(err))
+      .finally(setActions({ loading: false }));
+  };
+
   const DeleteItem = (productId) => {
     axios
       .delete(`/product/delete/${productId}`, {
@@ -95,11 +149,13 @@ export const Products = () => {
 
   useEffect(() => requestsCaller(), []);
 
+  // This Columns Variable is used to determine The Values getting inside the Table Component
   const columns = [
     {
       key: "title",
       title: "Title",
       render: (data) => data.title,
+      sorter: (a, b) => a.title.length - b.title.length,
     },
     {
       key: "productCode",
@@ -130,6 +186,7 @@ export const Products = () => {
       key: "points",
       title: "Points",
       render: (data) => data.points,
+      sorter: (a, b) => a.points - b.points,
     },
     {
       key: "isApproved",
@@ -154,21 +211,33 @@ export const Products = () => {
             setValue({ drawerValue: props?.record });
           }}
         />
-        <DeleteOutlined
-          title="Ban"
-          style={innerTableActionBtnDesign}
-          onClick={() => DeleteItem(props?.record?.productId)}
-        />
+        {!props?.record?.isApproved ? (
+          <DeleteOutlined
+            title="Ban"
+            style={innerTableActionBtnDesign}
+            onClick={() => DeleteItem(props?.record?.productId)}
+          />
+        ) : null}
       </div>
     );
   };
 
   const addNewProduct = () => setShowAdd(true);
+
   const backAddNewProduct = () => setShowAdd(false);
 
   const onCloseDrawer = () => {
     setActions({ drawer: false });
     setValue({ drawerValue: {} });
+  };
+
+  const openFilterDrawer = () => {
+    setActions({ filter: true });
+  };
+
+  const onCloseFilterDrawer = () => {
+    setActions({ filter: false });
+    setValue({ filterValue: {} });
   };
 
   return (
@@ -179,6 +248,10 @@ export const Products = () => {
         <div className="">
           <ActionButtons
             pageTitle={"Products"}
+            showSearchButton={true}
+            onSearch={getProductBySearch}
+            showFilterButton={true}
+            onFilter={openFilterDrawer}
             showTrashButton={false}
             showTrashFunction={""}
             showReFreshButton={true}
@@ -205,6 +278,16 @@ export const Products = () => {
               visible={drawer}
               onCloseDrawer={onCloseDrawer}
               data={drawerValue}
+            />
+          </div>
+          <div>
+            <FilterDrawer
+              title={"Set Product Filters"}
+              visible={filter}
+              onCloseDrawer={onCloseFilterDrawer}
+              data={filterValue}
+              applyFilter={getFilteredProduct}
+              resetFilter={requestsCaller}
             />
           </div>
         </div>

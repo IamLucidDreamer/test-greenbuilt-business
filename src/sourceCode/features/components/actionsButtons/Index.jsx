@@ -1,9 +1,11 @@
 import React from "react";
-import { Row, Col, Button, Switch } from "antd";
+import { Row, Col, Button, Switch, Input, Space } from "antd";
 import { ReloadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { CSVLink } from "react-csv";
 import { useNavigate } from "react-router-dom";
+
+const { Search } = Input
 
 export const ActionButtons = (props) => {
   const navigate = useNavigate();
@@ -13,6 +15,25 @@ export const ActionButtons = (props) => {
         {props.pageTitle}
       </h1>
       <Row gutter={30} className="flex items-center ">
+      {props.showSearchButton ? (
+          <Col>
+              <Space direction="vertical">
+                <Search placeholder="input search text" onSearch={props.onSearch} enterButton />
+              </Space>
+          </Col>
+        ) : null}
+        {props.showSearchButton ? (
+          <Col>
+           <Button
+                className="w-44"
+                type="primary"
+                style={{ fontWeight: "bold" }}
+                onClick={props.onFilter}
+              >
+              Filters
+            </Button>
+          </Col>
+        ) : null}
         {props.showTrashButton ? (
           <Col>
             <div className="">

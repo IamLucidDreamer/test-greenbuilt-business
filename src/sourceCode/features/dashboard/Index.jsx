@@ -30,7 +30,7 @@ export const Dashboard = () => {
         collapsible
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
-        style={{ backgroundColor: "#fff", boxShadow: "1px 1px 6px", zIndex: 2 }}
+        style={{ backgroundColor: "#fff", boxShadow: "1px 1px 6px #c1c1c1", zIndex: 2 }}
       >
         <img
           src={Logo}
@@ -97,7 +97,7 @@ export const Dashboard = () => {
       </Sider>
       <Layout className="site-layout">
         <HeaderElement />
-        <Content style={{ padding: "8px 24px", backgroundColor: "#e1e1e1" }}>
+        <Content style={{ padding: "8px 24px", backgroundColor: "#f0f0f0" }}>
           {/* For Managing Component Change within the Nested Routes Outlet is used*/}
           <Outlet />
         </Content>

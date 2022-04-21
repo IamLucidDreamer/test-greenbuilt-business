@@ -27,7 +27,7 @@ export const HeaderElement = () => {
         alignItems: "center",
         justifyContent: "space-between",
         zIndex:1,
-        boxShadow: "0px 1px 8px",
+        boxShadow: "0px 1px 8px #c1c1c1",
       }}
     >
       <h1 className="text-purple-1 text-xl m-0">Dashboard</h1>
