@@ -18,7 +18,15 @@ export const DrawerComp = (props) => {
           <Row>
             <Col span={12} lg={12} md={12} sm={32} xs={32}>
               <Desc title="Name" content={props?.data?.title} />
-              <Desc title="Packing Type" content={props?.data?.packagingType} />
+              <div className="site-description-item-profile-wrapper">
+                <p className="site-description-item-profile-p-label text-purple-1 flex m-0">
+                  <b>Packing Type : </b>
+                  <div className="flex">
+                    {props?.data?.packagingType?.map(data => <p>{data}, </p>)  }
+                  </div>
+                </p>
+              </div>
+              
               <Desc title="Industry Type" content={props?.data?.industryType} />
               <Desc
                 title="Approval Status"

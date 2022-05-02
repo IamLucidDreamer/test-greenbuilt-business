@@ -1,4 +1,5 @@
 import React from "react";
+import { Select } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "../../../appConfig/httpHelper";
@@ -7,7 +8,7 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 
 export function AddNewProduct(props) {
-  const industryType = useSelector((state) => state.statics.industryType);
+  const user = useSelector((state) => state.user);
   const uom = useSelector((state) => state.statics.uom);
   const packagingType = useSelector((state) => state.statics.packagingType);
 
@@ -18,9 +19,9 @@ export function AddNewProduct(props) {
       description: "",
       points: "",
       photo: "",
-      industryType: "",
+      industryType: user.industryType,
       uom: "",
-      packagingType: "",
+      packagingType: [],
     },
     validationSchema: Yup.object({
       title: Yup.string().required("Required"),
@@ -29,7 +30,7 @@ export function AddNewProduct(props) {
       photo: Yup.string().required("Required"),
       industryType: Yup.string().required("Required"),
       uom: Yup.string().required("Required"),
-      packagingType: Yup.string().required("Required"),
+      packagingType: Yup.array().required("Required"),
     }),
     onSubmit: (values) => {
       handleCreateProduct(values);
@@ -51,9 +52,11 @@ export function AddNewProduct(props) {
         toast.success(res.data.message);
         props.back();
       })
-      .catch((err) => {
-        toast.error(err.response.data.erro);
-      });
+      .catch((err) => {});
+  };
+
+  const handleChangePackagingType = (value) => {
+    console.log(value);
   };
 
   return (
@@ -72,6 +75,14 @@ export function AddNewProduct(props) {
       <div className="shadow-lg rounded-3xl">
         <div className="bg-white p-3 rounded-3xl">
           <form className="" onSubmit={formik.handleSubmit}>
+            <div className="flex my-5">
+              <h1 className="text-xl text-purple-1">
+                Industry Type :
+                <span className="text-xl text-purple-1 font-bold">
+                  {" "}{formik.values.industryType}
+                </span>
+              </h1>
+            </div>
             <div className="my-5 flex flex-col">
               <input
                 placeholder="Title"
@@ -93,9 +104,20 @@ export function AddNewProduct(props) {
               ) : null}
             </div>
             <div className="my-5 flex flex-col">
-              <select
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
-                {...formik.getFieldProps("packagingType")}
+              <Select
+                mode="multiple"
+                placeholder="Packaging Type"
+                onChange={(value) =>
+                  formik.setFieldValue("packagingType", value)
+                }
+                style={{
+                  width: "100%",
+                  borderColor: "#14003580",
+                  borderWidth: "2px",
+                  borderRadius: "10px",
+                  padding: "9px",
+                  fontSize: "20px",
+                }}
               >
                 <option disabled value="">
                   Select Packaging Type
@@ -103,7 +125,7 @@ export function AddNewProduct(props) {
                 {packagingType.map((data) => (
                   <option value={data.name}>{data.name}</option>
                 ))}
-              </select>
+              </Select>
               {formik.touched.packagingType && formik.errors.packagingType ? (
                 <div>{formik.errors.packagingType}</div>
               ) : null}
@@ -122,22 +144,6 @@ export function AddNewProduct(props) {
               </select>
               {formik.touched.uom && formik.errors.uom ? (
                 <div>{formik.errors.uom}</div>
-              ) : null}
-            </div>
-            <div className="my-5 flex flex-col">
-              <select
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
-                {...formik.getFieldProps("industryType")}
-              >
-                <option disabled value="">
-                  Select Industry Type
-                </option>
-                {industryType.map((data) => (
-                  <option value={data.name}>{data.name}</option>
-                ))}
-              </select>
-              {formik.touched.industryType && formik.errors.industryType ? (
-                <div>{formik.errors.industryType}</div>
               ) : null}
             </div>
             <div className="my-5 flex flex-col">

@@ -63,6 +63,7 @@ export const SignUp = () => {
           ) : null}
           {form === 4 ? (
             <UserDetails
+            changeFormNumber={setFormValue}
               businessName={businessName}
               businessPhone={businessPhone}
             />

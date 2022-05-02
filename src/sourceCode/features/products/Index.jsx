@@ -165,7 +165,12 @@ export const Products = () => {
     {
       key: "packagingType",
       title: "Packaging Type",
-      render: (data) => data.packagingType,
+      render: (data) =>
+        data.packagingType.map((data) => (
+          <div>
+            <p>{data},</p>
+          </div>
+        )),
     },
     {
       key: "industryType",

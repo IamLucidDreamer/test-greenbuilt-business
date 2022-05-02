@@ -23,9 +23,11 @@ export const DrawerComp = (props) => {
   const formik = useFormik({
     initialValues: {
       noOfUnits: "",
+      uomUnits:""
     },
     validationSchema: Yup.object({
       noOfUnits: Yup.string().required("Required"),
+      uomUnits:Yup.string().required("Required"),
     }),
     onSubmit: (value) => {
       console.log(value);
@@ -75,6 +77,17 @@ export const DrawerComp = (props) => {
       onClose={() => props.onCloseDrawer()}
       visible={props.visible}
     >
+      <Row>
+        <Col>
+          <h1 className="text-2xl font-bold text-purple-1">
+            Product Name: {props.data.title}
+          </h1>
+
+          <h1 className="text-xl font-bold text-purple-1">
+            Unit of Measurement: {props.data.uom}
+          </h1>
+        </Col>
+      </Row>
       <Tabs defaultActiveKey="1">
         <TabPane tab="Generate QR" key="1">
           <form onSubmit={formik.handleSubmit}>
@@ -86,13 +99,28 @@ export const DrawerComp = (props) => {
                   className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
                   {...formik.getFieldProps("noOfUnits")}
                 />
-                <button
+              </Col>
+              <Col span={12} lg={12} md={12} sm={32} xs={32}>
+                <select className="w-72 p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1">
+                <option disabled>Select the Packaging Type</option>
+                  {props?.data?.packagingType?.map(data => <option>{data}</option>)}
+                </select>
+              </Col>
+              <Col span={12} lg={12} md={12} sm={32} xs={32}>
+              <input
+                  placeholder={`Total ${props?.data?.uom} of the Package`}
+                  type="number"
+                  className="p-3 my-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
+                  {...formik.getFieldProps("uomUnits")}
+                />
+              </Col>
+              <Col>
+              <button
                   type="submit"
                   className="w-36 py-2 px-4 my-5 bg-purple-1 border-2 border-purple-1 focus:outline-none rounded-2xl text-lg text-left text-white font-bold group duration-500 flex justify-evenly items-center"
                 >
                   Generate
-                </button>
-              </Col>
+                </button></Col>
               <Col span={12} lg={12} md={12} sm={32} xs={32}>
                 {show ? (
                   <button

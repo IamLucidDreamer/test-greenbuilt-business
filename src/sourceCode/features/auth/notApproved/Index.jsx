@@ -6,14 +6,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { authenticated } from "../../../utils/auth";
+import axios from "../../../appConfig/httpHelper";
+import { toast } from "react-toastify";
+import setUserDetails from "../../../store/reducers"
 
 export const NotApproved = () => {
+  const token = localStorage.getItem("jwt");
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
+
+    console.log(user)
+
+    axios
+    .get(`/user/get/${user.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      toast.success("User Has been Approved by the Admin")
+      console.log(res)
+      dispatch(setUserDetails(res?.data?.data))
+    })
+    .catch((err) => console.log(err))
+    
     if (token && user.role === 2) {
       if (user.isApproved) {
         navigate("/business/dashboard");

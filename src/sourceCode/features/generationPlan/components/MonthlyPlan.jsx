@@ -1,127 +1,178 @@
-import React from "react";
+import React, { useEffect, useReducer } from "react";
 import { useFormik } from "formik";
-import { toast } from "react-toastify";
-import axios from "../../../appConfig/httpHelper";
 import * as Yup from "yup";
+import axios from "../../../appConfig/httpHelper";
+import { toast } from "react-toastify";
+import ActionButtons from "../../components/actionsButtons/Index";
+import { DataTable } from "../../components/table/Index";
+import { QrcodeOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { AddNewEntry } from "./AddNewEntry";
 
 export const MonthlyPlan = () => {
-  const formik = useFormik({
-    initialValues: {
-      sourceType: "",
-      ownCaptive: "",
-      groupCaptive: "",
-      thirdPartyPurchase: "",
-    },
-    validationSchema: Yup.object({
-      sourceType: Yup.string().required("Required"),
-      ownCaptive: Yup.string().required("Required"),
-      groupCaptive: Yup.string().required("Required"),
-      thirdPartyPurchase: Yup.string().required("Required"),
-    }),
-    onSubmit: (values) => {
-      handleCreateMonthlyPlan(values);
-    },
-  });
+  const token = JSON.parse(localStorage.getItem("jwt"));
+  const user = useSelector((state) => state.user);
+  const day = new Date();
 
-  const handleCreateMonthlyPlan = (values) => {
-    const token = JSON.parse(localStorage.getItem("jwt"));
-    // const data = {
-    //   data: [
-    //     {
-    //       sourceType: "Wind",
-    //       ownCaptive: 5000,
-    //       groupCaptive: 10000,
-    //       thirdPartyPurchase: 4500,
-    //     },
-    //     {
-    //       sourceType: "Hydro",
-    //       ownCaptive: 0,
-    //       groupCaptive: 9000,
-    //       thirdPartyPurchase: 0,
-    //     },
-    //   ],
-    // };
-    // console.log(data);
-    const data = {};
+  // Declaring the States Required for the Working of the Component
+  const [actions, setActions] = useReducer(
+    (state, diff) => ({ ...state, ...diff }),
+    {
+      drawer: false,
+      loading: false,
+      pagination: 15,
+      trash: false,
+      newPlan: false,
+      loadingAllPlans: false,
+      downloadAllPlans: false,
+    }
+  );
+
+  const { drawer, newPlan, loading, pagination } = actions;
+
+  const [value, setValue] = useReducer(
+    (state, diff) => ({ ...state, ...diff }),
+    { plans: [], allPlans: [], drawerValue: {} }
+  );
+
+  const { plans, allPlans, drawerValue } = value;
+
+  // Functions Used for Different Data
+  const requestsCaller = () => {
+    setActions({ loading: true });
     axios
-      .post("/monthly-plan/consumption/create", data, {
+      .get(`/monthly-plan/consumption/get-all/user-id/1`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        toast.success(res.data.message);
+        console.log(res.data.data);
+        setValue({
+          plans: res.data.data,
+        });
       })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Monthly Plan Not Saved");
-      });
+      .catch((err) => console.log(err))
+      .finally(setActions({ loading: false }));
   };
 
+  useEffect(() => requestsCaller(), []);
+
+  const addNewPlan = () => {
+    let matchingDate = false;
+    plans.map((data) => {
+      data.month === day.getMonth() + 1 && data.year - 1900 === day.getYear()
+        ? (matchingDate = true)
+        : (matchingDate = false);
+    });
+
+    if (!matchingDate) {
+      setActions({ newPlan: true });
+    } else {
+      toast.error(
+        "New Monthly Plan Cannot be added as a plan for this month has already been added. Try Editing this months plan instead."
+      );
+    }
+  };
+
+  const backAddNewPlan = () => {
+    setActions({ newPlan: false });
+  };
+
+  const columns = [
+    {
+      key: "totalPlan",
+      title: "Total Plan",
+      render: (data) => data.toal,
+    },
+    {
+      key: "details",
+      title: "Details",
+      width: "800px",
+      render: (data) => (
+        <DataTable
+          usersData={data?.monthlyPlans}
+          columns={columnsNestedTable}
+          pagination={false} 
+        />
+      ),
+    },
+    {
+      key: "date",
+      title: "Date",
+      render: (data) => data.date,
+    },
+    {
+      key: "month",
+      title: "Month",
+      render: (data) => data.month,
+    },
+    {
+      key: "year",
+      title: "Year",
+      render: (data) => data.year,
+    },
+  ];
+
+  const columnsNestedTable = [
+    {
+      key: "sourceType",
+      title: "Source Type",
+      render: (data) => data.sourceType,
+    },
+    {
+      key: "ownCaptive",
+      title: "Own Captive",
+      render: (data) => data.ownCaptive,
+    },
+    {
+      key: "groupCaptive",
+      title: "Group Captive",
+      render: (data) => data.groupCaptive,
+    },
+    {
+      key: "thirdPartyPurchase",
+      title: "Third Party Purchase",
+      render: (data) => data.thirdPartyPurchase,
+    },
+    {
+      key: "total",
+      title: "Total",
+      render: (data) => data?.ownCaptive + data?.thirdPartyPurchase + data?.groupCaptive,
+    },
+  ];
+
   return (
-    <div>
-      <h1 className="text-2xl text-purple-1 mt-2 font-bold">Monthly Plan</h1>
-      <form className="" onSubmit={formik.handleSubmit}>
-        <div className="my-2 flex flex-col">
-          <label className="text-sm text-purple-1 py-1.5 font-semibold">
-            Source Type
-          </label>
-          <input
-            placeholder="Source Type"
-            className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
-            {...formik.getFieldProps("sourceType")}
+    <>
+      {newPlan ? (
+        <AddNewEntry back={backAddNewPlan} />
+      ) : (
+        <div className="">
+          <ActionButtons
+            pageTitle={"Monthly Consumption Plan"}
+            showTrashButton={false}
+            showTrashFunction={""}
+            showReFreshButton={true}
+            refreshFunction={requestsCaller}
+            showExportDataButton={false}
+            exportDataFunction={""}
+            totalItems={""}
+            loadingItems={""}
+            downloadItems={""}
+            showAddNewButton={true}
+            addNewFunction={addNewPlan}
           />
-          {formik.touched.sourceType && formik.errors.sourceType ? (
-            <div> {formik.errors.sourceType}</div>
-          ) : null}
+          <div className="border-2 mt-5">
+            <DataTable usersData={plans} columns={columns} loading={loading} />
+          </div>
+          {/* <DrawerComp
+        title={"QR Code"}
+        visible={drawer}
+        onCloseDrawer={onCloseDrawer}
+        data={drawerValue}
+      /> */}
         </div>
-        <div className="my-2 flex flex-col">
-          <label className="text-sm text-purple-1 py-1.5 font-semibold">
-            Own Captive
-          </label>
-          <input
-            placeholder="Own Captive"
-            className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
-            {...formik.getFieldProps("ownCaptive")}
-          />
-          {formik.touched.ownCaptive && formik.errors.ownCaptive ? (
-            <div>{formik.errors.ownCaptive}</div>
-          ) : null}
-        </div>
-        <div className="my-2 flex flex-col">
-          <label className="text-sm text-purple-1 py-1.5 font-semibold">
-            Group Captive
-          </label>
-          <input
-            placeholder="Group Captive"
-            className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
-            {...formik.getFieldProps("groupCaptive")}
-          />
-          {formik.touched.groupCaptive && formik.errors.groupCaptive ? (
-            <div>{formik.errors.groupCaptive}</div>
-          ) : null}
-        </div>
-        <div className="my-2 flex flex-col">
-          <label className="text-sm text-purple-1 py-1.5 font-semibold">
-            Third Party Purchases
-          </label>
-          <input
-            placeholder="Third Party Purchases"
-            className="p-1.5 rounded-lg bg-purple-1 bg-opacity-10 border-2 border-purple-1"
-            {...formik.getFieldProps("thirdPartyPurchase")}
-          />
-          {formik.touched.thirdPartyPurchase &&
-          formik.errors.thirdPartyPurchase ? (
-            <div>{formik.errors.thirdPartyPurchase}</div>
-          ) : null}
-        </div>
-        <button
-          type="submit"
-          className="w-full py-1.5 my-3 bg-purple-1 border-2 border-purple-1 focus:outline-none hover:bg-green-1 rounded text-base text-white font-bold hover:text-purple-1 duration-500"
-        >
-          Save
-        </button>
-      </form>
-    </div>
+      )}
+    </>
   );
 };

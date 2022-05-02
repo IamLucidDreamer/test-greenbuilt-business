@@ -32,7 +32,10 @@ export const DashboardStats = () => {
 
   return (
     <div className="relative px-4 py-2">
-      <div className="flex justify-end mr-10">
+      <div className="flex justify-between items-center mr-10">
+      <h1 className="text-2xl font-bold text-purple-1 m-0">
+        Dashboard Statistics
+      </h1>
         <Button
           type="primary"
           loading={loading}
