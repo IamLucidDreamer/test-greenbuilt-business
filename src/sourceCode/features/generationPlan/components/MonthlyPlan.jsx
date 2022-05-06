@@ -41,7 +41,7 @@ export const MonthlyPlan = () => {
   const requestsCaller = () => {
     setActions({ loading: true });
     axios
-      .get(`/monthly-plan/consumption/get-all/user-id/1`, {
+      .get(`/monthly-plan/consumption/get-all/user-id/${user.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -60,11 +60,12 @@ export const MonthlyPlan = () => {
 
   const addNewPlan = () => {
     let matchingDate = false;
-    plans.map((data) => {
-      data.month === day.getMonth() + 1 && data.year - 1900 === day.getYear()
-        ? (matchingDate = true)
-        : (matchingDate = false);
-    });
+    // Validation Removed for Testing
+    // plans.map((data) => {
+    //   data.month === day.getMonth() + 1 && data.year - 1900 === day.getYear()
+    //     ? (matchingDate = true)
+    //     : (matchingDate = false);
+    // });
 
     if (!matchingDate) {
       setActions({ newPlan: true });
