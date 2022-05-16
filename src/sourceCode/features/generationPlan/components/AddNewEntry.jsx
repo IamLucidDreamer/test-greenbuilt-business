@@ -12,11 +12,32 @@ export const AddNewEntry = (props) => {
 
   const [data, setData] = useState([]);
 
-  const handleRequest = (data) => {
+  const formik = useFormik({
+    initialValues: {
+      monthYear: "",
+    },
+    validationSchema: Yup.object({
+      monthYear: Yup.date().required("Required"),
+    }),
+    onSubmit: (values) => {
+      const date = Date.parse(values.monthYear)
+      console.log(date);
+      handleRequest(date , data);
+    },
+  });
+
+  const handleRequest = ( date , data) => {
+
+    data.forEach(data => {
+      data.date = new Date().getDate()
+			data.month = new Date(date).getMonth() + 1
+			data.year = new Date(date).getFullYear()
+			data.fullDate = new Date()
+    });
     axios
       .post(
         "/monthly-plan/consumption/create",
-        { data },
+        { data  },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -31,7 +52,7 @@ export const AddNewEntry = (props) => {
   };
 
   return (
-    <div className="my-2">
+    <form onSubmit={formik.handleSubmit} className="my-2">
       <button
         className="text-purple-1 p-2 text-base"
         onClick={() => {
@@ -43,6 +64,17 @@ export const AddNewEntry = (props) => {
       <h1 className="text-purple-1 text-center text-3xl font-bold">
         Create New Entry
       </h1>
+      <div className="flex flex-col items-center justify-evenly mb-10">
+        <h1 className="text-xl text-purple-1">Choose the Month</h1>
+        <input
+          {...formik.getFieldProps("monthYear")}
+          type={"month"}
+          className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+        />
+        {formik.touched.monthYear && formik.errors.monthYear ? (
+            <div> {formik.errors.monthYear}</div>
+          ) : null}
+      </div>
       <div className="flex flex-row items-center justify-between bg-gray-200 px-2">
         <div className="p-3 bg-gray-200 flex items-center justify-center w-56">
           <h1 className="text-purple-1 font-semibold m-0 text-lg">
@@ -143,11 +175,11 @@ export const AddNewEntry = (props) => {
         );
       })}
       <button
-        onClick={() => handleRequest(data)}
+        type="submit"
         className="w-full py-3 px-6 my-5 bg-purple-1 border-2 border-purple-1 focus:outline-none rounded-2xl text-xl text-left text-white font-bold group duration-500 flex justify-evenly items-center hover:shadow-lg shadow-purple-1"
       >
         Add New Entry
       </button>
-    </div>
+    </form>
   );
 };

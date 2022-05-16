@@ -47,7 +47,7 @@ export const SendOtp = (props) => {
 
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(125, "Must be 15 characters or less")
+        .max(150, "Must be 150 characters or less")
         .required("Required"),
       phoneNumber: Yup.string()
         .required("Required")

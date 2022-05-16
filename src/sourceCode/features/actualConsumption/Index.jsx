@@ -60,11 +60,11 @@ export const ActualConsumption = () => {
 
   const addNewPlan = () => {
     let matchingDate = false;
-    plans.map((data) => {
-      data.month === day.getMonth() + 1 && data.year - 1900 === day.getYear()
-        ? (matchingDate = true)
-        : (matchingDate = false);
-    });
+    // plans.map((data) => {
+    //   data.month === day.getMonth() + 1 && data.year - 1900 === day.getYear()
+    //     ? (matchingDate = true)
+    //     : (matchingDate = false);
+    // });
 
     if (!matchingDate) {
       setActions({ newPlan: true });
