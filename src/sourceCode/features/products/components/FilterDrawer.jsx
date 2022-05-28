@@ -4,7 +4,7 @@ import { Desc } from "../../components/layout/Desc";
 import { useSelector } from "react-redux";
 
 export const FilterDrawer = (props) => {
-  const [industryTypeSelected, setIndustryTypeSelected] = useState("");
+
   const [packagingTypeSelected, setPackagingTypeSelected] = useState("");
   const [uomSelected, setUomSelected] = useState("");
 
@@ -13,7 +13,6 @@ export const FilterDrawer = (props) => {
   const packagingType = useSelector((state) => state.statics.packagingType);
 
   const resetFilters = () => {
-    setIndustryTypeSelected("");
     setPackagingTypeSelected("");
     setUomSelected("");
     props.resetFilter()
@@ -31,22 +30,6 @@ export const FilterDrawer = (props) => {
     >
       <Tabs defaultActiveKey="1">
         <TabPane tab="Filters" key="1" style={{ padding: 10 }}>
-          <h1 className="text-xl font-bold">Industry Type</h1>
-          <div className="flex flex-wrap gap-4">
-            {industryType.map((data) => (
-              <Button
-                type={industryTypeSelected === data.name ? "ghost" : "primary"}
-                style={{
-                  backgroundColor:
-                    industryTypeSelected === data.name ? "#140035" : "",
-                  color: industryTypeSelected === data.name ? "#fff" : "",
-                }}
-                onClick={() => setIndustryTypeSelected(data.name)}
-              >
-                {data.name}
-              </Button>
-            ))}
-          </div>
           <h1 className="text-xl font-bold mt-4">Packaging Type</h1>
           <div className="flex flex-wrap gap-4">
             {packagingType.map((data) => (
@@ -89,7 +72,6 @@ export const FilterDrawer = (props) => {
                 type="primary"
                 onClick={() =>
                   props.applyFilter({
-                    industryTypeSelected,
                     packagingTypeSelected,
                     uomSelected,
                   })

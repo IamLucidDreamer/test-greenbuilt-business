@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserOutlined, DownOutlined, BellOutlined } from "@ant-design/icons";
 import { logout } from "../../../store/actions/user";
 
-export const HeaderElement = () => {
+export const HeaderElement = ({title}) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
@@ -23,6 +23,7 @@ export const HeaderElement = () => {
   );
 
   const Notification = () => (
+
     <Modal
       title="Notifications"
       style={{ top: 80, right: 20, position: "absolute" }}
@@ -77,11 +78,11 @@ export const HeaderElement = () => {
         boxShadow: "0px 1px 8px #c1c1c1",
       }}
     >
-      <h1 className="text-purple-1 text-xl m-0">Dashboard</h1>
+      <h1 className="text-purple-1 text-xl m-0">Dashboard / {title}</h1>
       <div className="flex items-center justify-center">
         <button
           onClick={() => setShowNotification(true)}
-          className={`mr-8 w-11 h-11 p-2 rounded-full flex items-center justify-center ${
+          className={`mr-8 w-11 h-11 p-2 rounded-full flex items-center justify-center  ${
             notification
               ? `bg-purple-1 bg-opacity-10 border-1 border-purple-1 animate-pulse`
               : ""

@@ -79,92 +79,99 @@ export function AddNewProduct(props) {
               <h1 className="text-xl text-purple-1">
                 Industry Type :
                 <span className="text-xl text-purple-1 font-bold">
-                  {" "}{formik.values.industryType}
+                  {" "}
+                  {formik.values.industryType}
                 </span>
               </h1>
             </div>
-            <div className="my-5 flex flex-col">
-              <input
-                placeholder="Title"
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
-                {...formik.getFieldProps("title")}
-              />
-              {formik.touched.title && formik.errors.title ? (
-                <div>{formik.errors.title}</div>
-              ) : null}
+            <div className="flex items-center justify-between">
+              <div className="my-5 flex flex-col w-5/12">
+                <input
+                  placeholder="Title"
+                  className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+                  {...formik.getFieldProps("title")}
+                />
+                {formik.touched.title && formik.errors.title ? (
+                  <div>{formik.errors.title}</div>
+                ) : null}
+              </div>
+              <div className="my-5 flex flex-col w-5/12">
+                <input
+                  placeholder="Description"
+                  className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+                  {...formik.getFieldProps("description")}
+                />
+                {formik.touched.description && formik.errors.description ? (
+                  <div>{formik.errors.description}</div>
+                ) : null}
+              </div>
             </div>
-            <div className="my-5 flex flex-col">
-              <input
-                placeholder="Description"
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
-                {...formik.getFieldProps("description")}
-              />
-              {formik.touched.description && formik.errors.description ? (
-                <div>{formik.errors.description}</div>
-              ) : null}
+            <div className="flex items-center justify-between">
+              <div className="my-5 flex flex-col w-5/12">
+                <Select
+                  mode="multiple"
+                  placeholder="Packaging Type"
+                  onChange={(value) =>
+                    formik.setFieldValue("packagingType", value)
+                  }
+                  style={{
+                    width: "100%",
+                    borderColor: "#14003580",
+                    borderWidth: "2px",
+                    borderRadius: "10px",
+                    padding: "9px",
+                    fontSize: "20px",
+                  }}
+                >
+                  <option disabled value="">
+                    Select Packaging Type
+                  </option>
+                  {packagingType.map((data) => (
+                    <option value={data.name}>{data.name}</option>
+                  ))}
+                </Select>
+                {formik.touched.packagingType && formik.errors.packagingType ? (
+                  <div>{formik.errors.packagingType}</div>
+                ) : null}
+              </div>
+              <div className="my-5 flex flex-col w-5/12">
+                <select
+                  className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
+                  {...formik.getFieldProps("uom")}
+                >
+                  <option disabled value="">
+                    Select UOM
+                  </option>
+                  {uom.map((data) => (
+                    <option value={data.name}>{data.name}</option>
+                  ))}
+                </select>
+                {formik.touched.uom && formik.errors.uom ? (
+                  <div>{formik.errors.uom}</div>
+                ) : null}
+              </div>
             </div>
-            <div className="my-5 flex flex-col">
-              <Select
-                mode="multiple"
-                placeholder="Packaging Type"
-                onChange={(value) =>
-                  formik.setFieldValue("packagingType", value)
-                }
-                style={{
-                  width: "100%",
-                  borderColor: "#14003580",
-                  borderWidth: "2px",
-                  borderRadius: "10px",
-                  padding: "9px",
-                  fontSize: "20px",
-                }}
-              >
-                <option disabled value="">
-                  Select Packaging Type
-                </option>
-                {packagingType.map((data) => (
-                  <option value={data.name}>{data.name}</option>
-                ))}
-              </Select>
-              {formik.touched.packagingType && formik.errors.packagingType ? (
-                <div>{formik.errors.packagingType}</div>
-              ) : null}
-            </div>
-            <div className="my-5 flex flex-col">
-              <select
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-1"
-                {...formik.getFieldProps("uom")}
-              >
-                <option disabled value="">
-                  Select UOM
-                </option>
-                {uom.map((data) => (
-                  <option value={data.name}>{data.name}</option>
-                ))}
-              </select>
-              {formik.touched.uom && formik.errors.uom ? (
-                <div>{formik.errors.uom}</div>
-              ) : null}
-            </div>
-            <div className="my-5 flex flex-col">
-              <input
-                placeholder={`Units Required / ${formik.values.uom}`}
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
-                {...formik.getFieldProps("points")}
-              />
-              {formik.touched.points && formik.errors.points ? (
-                <div>{formik.errors.points}</div>
-              ) : null}
-            </div>
-            <div className="my-5 flex flex-col">
-              <input
-                placeholder="Photo"
-                className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
-                {...formik.getFieldProps("photo")}
-              />
-              {formik.touched.photo && formik.errors.photo ? (
-                <div>{formik.errors.photo}</div>
-              ) : null}
+            <div className="flex items-center justify-between">
+              <div className="my-5 flex flex-col w-5/12">
+                <input
+                  placeholder={`Units Required / ${formik.values.uom}`}
+                  className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+                  {...formik.getFieldProps("points")}
+                />
+                {formik.touched.points && formik.errors.points ? (
+                  <div>{formik.errors.points}</div>
+                ) : null}
+              </div>
+              <div className="my-5 flex flex-col w-5/12">
+                <input
+                  placeholder="Photo"
+                  className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
+                  {...formik.getFieldProps("photo")}
+                />
+                {formik.touched.photo && formik.errors.photo ? (
+                  <div>{formik.errors.photo}</div>
+                ) : null}
+              </div>
             </div>
             <button
               type="submit"

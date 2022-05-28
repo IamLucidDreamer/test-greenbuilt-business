@@ -7,7 +7,10 @@ import ActionButtons from "../../components/actionsButtons/Index";
 import { DataTable } from "../../components/table/Index";
 import { QrcodeOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
+import { innerTableActionBtnDesign } from "../../components/styles/innerTableActions";
 import { AddNewEntry } from "./AddNewEntry";
+import { DrawerComp } from "./Drawer";
 
 export const MonthlyPlan = () => {
   const token = JSON.parse(localStorage.getItem("jwt"));
@@ -56,6 +59,26 @@ export const MonthlyPlan = () => {
       .finally(setActions({ loading: false }));
   };
 
+  const DeleteItem = (planId) => {
+    console.log(planId);
+    console.log(token)
+    axios
+      .delete(
+        `/monthly-plan/consumption/delete/plan-id/${planId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        toast.success(res.data.message);
+        requestsCaller();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Product Deletion Failed");
+      });
+  };
+
   useEffect(() => requestsCaller(), []);
 
   const addNewPlan = () => {
@@ -80,6 +103,10 @@ export const MonthlyPlan = () => {
     setActions({ newPlan: false });
   };
 
+  const onCloseDrawer = () => {
+    setActions({ drawer: false });
+  };
+
   const columns = [
     {
       key: "totalPlan",
@@ -87,16 +114,9 @@ export const MonthlyPlan = () => {
       render: (data) => data.toal,
     },
     {
-      key: "details",
-      title: "Details",
-      width: "800px",
-      render: (data) => (
-        <DataTable
-          usersData={data?.monthlyPlans}
-          columns={columnsNestedTable}
-          pagination={false} 
-        />
-      ),
+      key: "defaultedPoints",
+      title: "Defaulted Points",
+      render: (data) => user.defaultedPoints,
     },
     {
       key: "date",
@@ -113,35 +133,34 @@ export const MonthlyPlan = () => {
       title: "Year",
       render: (data) => data.year,
     },
+    {
+      key: "actions",
+      title: "Actions",
+      render: (record) => <ColumnActions record={record} />,
+    },
   ];
 
-  const columnsNestedTable = [
-    {
-      key: "sourceType",
-      title: "Source Type",
-      render: (data) => data.sourceType,
-    },
-    {
-      key: "ownCaptive",
-      title: "Own Captive",
-      render: (data) => data.ownCaptive,
-    },
-    {
-      key: "groupCaptive",
-      title: "Group Captive",
-      render: (data) => data.groupCaptive,
-    },
-    {
-      key: "thirdPartyPurchase",
-      title: "Third Party Purchase",
-      render: (data) => data.thirdPartyPurchase,
-    },
-    {
-      key: "total",
-      title: "Total",
-      render: (data) => data?.ownCaptive + data?.thirdPartyPurchase + data?.groupCaptive,
-    },
-  ];
+  const ColumnActions = (props) => {
+    return (
+      <div className="flex justify-around">
+        <EyeOutlined
+          title="View"
+          style={innerTableActionBtnDesign}
+          onClick={() => {
+            setActions({ drawer: true });
+            setValue({ drawerValue: props?.record });
+          }}
+        />
+        {!props?.record?.isApproved ? (
+          <DeleteOutlined
+            title="Ban"
+            style={innerTableActionBtnDesign}
+            onClick={() => DeleteItem(props?.record?.monthlyPlanId)}
+          />
+        ) : null}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -166,12 +185,12 @@ export const MonthlyPlan = () => {
           <div className="border-2 mt-5">
             <DataTable usersData={plans} columns={columns} loading={loading} />
           </div>
-          {/* <DrawerComp
-        title={"QR Code"}
-        visible={drawer}
-        onCloseDrawer={onCloseDrawer}
-        data={drawerValue}
-      /> */}
+          <DrawerComp
+            title={"QR Code"}
+            visible={drawer}
+            onCloseDrawer={onCloseDrawer}
+            data={drawerValue}
+          />
         </div>
       )}
     </>

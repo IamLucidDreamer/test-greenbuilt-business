@@ -20,24 +20,27 @@ export const AddNewEntry = (props) => {
       monthYear: Yup.date().required("Required"),
     }),
     onSubmit: (values) => {
-      const date = Date.parse(values.monthYear)
+      const date = Date.parse(values.monthYear);
       console.log(date);
-      handleRequest(date , data);
+      handleRequest(date, data);
     },
   });
 
-  const handleRequest = ( date , data) => {
-
-    data.forEach(data => {
-      data.date = new Date().getDate()
-			data.month = new Date(date).getMonth() + 1
-			data.year = new Date(date).getFullYear()
-			data.fullDate = new Date()
-    });
+  const handleRequest = (date, values) => {
+    console.log(values);
+    const data = {
+      data: { ...values },
+      info: {
+        date: new Date().getDate(),
+        year: new Date(date).getFullYear(),
+        month: new Date(date).getMonth() + 1,
+      },
+    };
+    console.log({...data});
     axios
       .post(
         "/monthly-plan/consumption/create",
-        { data  },
+        { ...data },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -72,8 +75,8 @@ export const AddNewEntry = (props) => {
           className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
         />
         {formik.touched.monthYear && formik.errors.monthYear ? (
-            <div> {formik.errors.monthYear}</div>
-          ) : null}
+          <div> {formik.errors.monthYear}</div>
+        ) : null}
       </div>
       <div className="flex flex-row items-center justify-between bg-gray-200 px-2">
         <div className="p-3 bg-gray-200 flex items-center justify-center w-56">

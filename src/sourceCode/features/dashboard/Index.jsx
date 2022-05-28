@@ -23,6 +23,7 @@ export const Dashboard = () => {
   const navigate = useNavigate();
 
   const [collapsed, setCollapsed] = useState(true);
+  const [title, setTitle] = useState("");
 
   return (
     <Layout style={{ minHeight: "100vh", backgroundColor: "#e1e1e1" }}>
@@ -30,7 +31,11 @@ export const Dashboard = () => {
         collapsible
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
-        style={{ backgroundColor: "#fff", boxShadow: "1px 1px 6px #c1c1c1", zIndex: 2 }}
+        style={{
+          backgroundColor: "#fff",
+          boxShadow: "1px 1px 6px #c1c1c1",
+          zIndex: 2,
+        }}
       >
         <img
           src={Logo}
@@ -49,7 +54,10 @@ export const Dashboard = () => {
             key="1"
             icon={<DashboardOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#140035" }}
-            onClick={() => navigate("/business/dashboard")}
+            onClick={() => {
+              navigate("/business/dashboard");
+              setTitle("Dashboard Statistics");
+            }}
           >
             Dashboard
           </Menu.Item>
@@ -57,7 +65,10 @@ export const Dashboard = () => {
             key="2"
             icon={<UnorderedListOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#140035" }}
-            onClick={() => navigate("/business/product")}
+            onClick={() => {
+              navigate("/business/product");
+              setTitle("Products");
+            }}
           >
             Products
           </Menu.Item>
@@ -65,7 +76,10 @@ export const Dashboard = () => {
             key="3"
             icon={<QrcodeOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#140035" }}
-            onClick={() => navigate("/business/generateqr")}
+            onClick={() => {
+              navigate("/business/generateqr");
+              setTitle("Generate QR");
+            }}
           >
             Generate QR
           </Menu.Item>
@@ -73,7 +87,10 @@ export const Dashboard = () => {
             key="4"
             icon={<FundProjectionScreenOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#140035" }}
-            onClick={() => navigate("/business/generationplan")}
+            onClick={() => {
+              navigate("/business/generationplan");
+              setTitle("Generation Plan");
+            }}
           >
             Generation Plan
           </Menu.Item>
@@ -81,7 +98,10 @@ export const Dashboard = () => {
             key="5"
             icon={<FormOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#140035" }}
-            onClick={() => navigate("/business/actualconsumption")}
+            onClick={() => {
+              navigate("/business/actualconsumption");
+              setTitle("Actual Consumtion");
+            }}
           >
             Actual Consumption
           </Menu.Item>
@@ -89,14 +109,17 @@ export const Dashboard = () => {
             key="6"
             icon={<HistoryOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#140035" }}
-            onClick={() => navigate("/business/history")}
+            onClick={() => {
+              navigate("/business/history");
+              setTitle("History");
+            }}
           >
             History
           </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">
-        <HeaderElement />
+        <HeaderElement title={title} />
         <Content style={{ padding: "8px 24px", backgroundColor: "#f0f0f0" }}>
           {/* For Managing Component Change within the Nested Routes Outlet is used*/}
           <Outlet />
