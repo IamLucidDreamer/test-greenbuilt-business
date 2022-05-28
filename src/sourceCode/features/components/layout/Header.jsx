@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu, Dropdown, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { UserOutlined, DownOutlined, BellOutlined } from "@ant-design/icons";
 import { logout } from "../../../store/actions/user";
+import axios from "../../../appConfig/httpHelper";
 
-export const HeaderElement = ({title}) => {
+export const HeaderElement = ({ title }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
   const [showNotification, setShowNotification] = useState(false);
   const [notification, setNotification] = useState(true);
+  const [notificationData, setNotificationData] = useState([]);
 
   const { Header } = Layout;
 
@@ -22,8 +24,24 @@ export const HeaderElement = ({title}) => {
     </Menu>
   );
 
-  const Notification = () => (
+  const getNotifications = () => {
+    const token = JSON.parse(localStorage.getItem("jwt"));
+    axios
+      .get(`/notification/user/${user.id}?limit=10`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setNotificationData(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
+  useEffect(() => getNotifications(), []);
+
+  const Notification = () => (
     <Modal
       title="Notifications"
       style={{ top: 80, right: 20, position: "absolute" }}
@@ -36,31 +54,15 @@ export const HeaderElement = ({title}) => {
         setNotification(false);
       }}
     >
-      <button className="text-blue-700 underline hover:no-underline">Mark All Read</button>
-      <div className="bg-slate-100 my-1 pt-2 px-2 rounded">
-        <h1 className="m-0 text-lg text-purple-1">The Actual Notification will come over here.</h1>
-        <h1 className="text-right">14/02/2022</h1>
-      </div>
-      <div className="bg-slate-100 my-1 pt-2 px-2 rounded">
-        <h1 className="m-0 text-lg text-purple-1">The Actual Notification will come over here.</h1>
-        <h1 className="text-right">14/02/2022</h1>
-      </div>
-      <div className="bg-slate-100 my-1 pt-2 px-2 rounded">
-        <h1 className="m-0 text-lg text-purple-1">The Actual Notification will come over here.</h1>
-        <h1 className="text-right">14/02/2022</h1>
-      </div>
-      <div className="bg-slate-100 my-1 pt-2 px-2 rounded">
-        <h1 className="m-0 text-lg text-purple-1">The Actual Notification will come over here.</h1>
-        <h1 className="text-right">14/02/2022</h1>
-      </div>
-      <div className="bg-slate-100 my-1 pt-2 px-2 rounded">
-        <h1 className="m-0 text-lg text-purple-1">The Actual Notification will come over here.</h1>
-        <h1 className="text-right">14/02/2022</h1>
-      </div>
-      <div className="bg-slate-100 my-1 pt-2 px-2 rounded">
-        <h1 className="m-0 text-lg text-purple-1">The Actual Notification will come over here.</h1>
-        <h1 className="text-right">14/02/2022</h1>
-      </div>
+      <button className="text-blue-700 underline hover:no-underline">
+        Mark All Read
+      </button>
+      {notificationData.map((data) => (
+        <div className="bg-slate-100 my-1 pt-2 px-2 rounded">
+          <h1 className="m-0 text-lg text-purple-1">{data?.text}</h1>
+          <h1 className="text-right">{`${data?.date}/${data?.month}/${data?.year}`}</h1>
+        </div>
+      ))}
     </Modal>
   );
 
@@ -88,10 +90,12 @@ export const HeaderElement = ({title}) => {
               : ""
           }`}
         >
-          { notification ? <span class="flex h-3 w-3 absolute -mt-8 -mr-8">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-1 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-1"></span>
-          </span> : null}
+          {notification ? (
+            <span class="flex h-3 w-3 absolute -mt-8 -mr-8">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-1 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-1"></span>
+            </span>
+          ) : null}
           <BellOutlined style={{ color: "#140035", fontSize: 24 }} />
         </button>
         <Notification />
