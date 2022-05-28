@@ -7,16 +7,16 @@ export const columns = [
   {
     key: "qrId",
     title: "QR Id",
-    render: (data) => data.qrId,
+    render: (data) => console.log(data),
   },
   {
     key: "isRedeemed",
     title: "Redeemed",
-    render: (data) => (data.isRedeemed ? "True" : "False"),
+    render: (data) => console.log(data),
   },
   {
     key: "qrCode",
     title: "QR Code",
-    render: (data) => <QRCode value={data.qrId} size={150} />,
+    render: (data) => console.log(data),
   },
 ];

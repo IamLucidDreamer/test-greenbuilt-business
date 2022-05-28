@@ -6,6 +6,7 @@ import axios from "../../../appConfig/httpHelper";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { DrawerComp } from "./Drawer";
 
 export const GenerationHistory = () => {
   const navigate = useNavigate();
@@ -38,10 +39,10 @@ export const GenerationHistory = () => {
 
   const [value, setValue] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
-    { products: [], allProducts: [] }
+    { qrHistory: [], allProducts: [] }
   );
 
-  const { products, allProducts } = value;
+  const { qrHistory, allProducts } = value;
 
   // Functions Used for Different Data
   const requestsCaller = () => {
@@ -53,7 +54,7 @@ export const GenerationHistory = () => {
         },
       })
       .then((res) => {
-        setValue({ products: res.data.data });
+        setValue({ qrHistory: res.data.data });
       })
       .catch((err) => console.log(err))
       .finally(setActions({ loading: false }));
@@ -78,7 +79,9 @@ export const GenerationHistory = () => {
 
   useEffect(() => requestsCaller(), []);
 
-  console.log({ products });
+  const onCloseDrawer = () => setActions({ drawer: false });
+
+  console.log({ qrHistory });
 
   return (
     <div className="">
@@ -98,8 +101,14 @@ export const GenerationHistory = () => {
         addNewFunction={""}
       />
       <div className="border-2 mt-5">
-        <DataTable usersData={products} columns={columns} loading={loading} />
+        <DataTable usersData={qrHistory} columns={columns} loading={loading} />
       </div>
+      <DrawerComp
+        title={"QR Code"}
+        visible={drawer}
+        onCloseDrawer={onCloseDrawer}
+        data={qrHistory}
+      />
     </div>
   );
 };

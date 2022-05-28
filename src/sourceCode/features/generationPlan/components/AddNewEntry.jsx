@@ -29,14 +29,14 @@ export const AddNewEntry = (props) => {
   const handleRequest = (date, values) => {
     console.log(values);
     const data = {
-      data: { ...values },
+      data: [...values],
       info: {
         date: new Date().getDate(),
         year: new Date(date).getFullYear(),
         month: new Date(date).getMonth() + 1,
       },
     };
-    console.log({...data});
+    console.log({ ...data });
     axios
       .post(
         "/monthly-plan/consumption/create",
@@ -51,7 +51,10 @@ export const AddNewEntry = (props) => {
         toast.success(res.data.message);
         props.back();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.error);
+      });
   };
 
   return (

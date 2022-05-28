@@ -14,8 +14,8 @@ export const AddNewEntry = (props) => {
     form_data.append("file", values.ebBill);
     form_data.append("totalConsumption", values.totalConsumption);
     form_data.append("totalGreenConsumption", values.greenConsumption);
-    form_data.append("month" , new Date(values.monthYear).getMonth() + 1 );
-    form_data.append("year" ,new Date(values.monthYear).getFullYear());
+    form_data.append("month", new Date(values.monthYear).getMonth() + 1);
+    form_data.append("year", new Date(values.monthYear).getFullYear());
     form_data.append("fullDate", new Date());
     form_data.append("date", new Date().getDate());
     console.log(form_data, "HelloWOrld File Test");
@@ -35,7 +35,10 @@ export const AddNewEntry = (props) => {
         toast.success(res.data.message);
         props.back();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.error);
+      });
   };
 
   const formik = useFormik({
@@ -54,15 +57,13 @@ export const AddNewEntry = (props) => {
       monthYear: Yup.date().required("Required"),
     }),
     onSubmit: (values) => {
-
       // Extracting the Year and Month from Month/Year Input
-      const date = Date.parse(values.monthYear)
-      const getDate = new Date (date)
+      const date = Date.parse(values.monthYear);
+      const getDate = new Date(date);
       formik.setFieldValue("month", getDate.getMonth());
-      formik.setFieldValue("year" , getDate.getFullYear())
+      formik.setFieldValue("year", getDate.getFullYear());
       console.log(values);
       handleRequest(values);
-
     },
   });
   return (
