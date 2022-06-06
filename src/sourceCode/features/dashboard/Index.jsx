@@ -23,7 +23,7 @@ export const Dashboard = () => {
   const navigate = useNavigate();
 
   const [collapsed, setCollapsed] = useState(true);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("Statistics");
 
   return (
     <Layout style={{ minHeight: "100vh", backgroundColor: "#e1e1e1" }}>
@@ -56,7 +56,7 @@ export const Dashboard = () => {
             style={{ fontSize: "18px", display: "flex", color: "#0a2c3c" }}
             onClick={() => {
               navigate("/business/dashboard");
-              setTitle("Dashboard Statistics");
+              setTitle("Statistics");
             }}
           >
             Dashboard
