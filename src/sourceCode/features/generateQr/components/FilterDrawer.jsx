@@ -31,8 +31,8 @@ export const FilterDrawer = (props) => {
     >
       <Tabs defaultActiveKey="1">
         <TabPane tab="Filters" key="1" style={{ padding: 10 }}>
-          <h1 className="text-xl font-bold">Industry Type</h1>
-          <div className="flex flex-wrap gap-4">
+          {/* <h1 className="text-xl font-bold">Industry Type</h1>s */}
+          {/* <div className="flex flex-wrap gap-4">
             {industryType.map((data) => (
               <Button
                 type={industryTypeSelected === data.name ? "ghost" : "primary"}
@@ -46,7 +46,7 @@ export const FilterDrawer = (props) => {
                 {data.name}
               </Button>
             ))}
-          </div>
+          </div> */}
           <h1 className="text-xl font-bold mt-4">Packaging Type</h1>
           <div className="flex flex-wrap gap-4">
             {packagingType.map((data) => (

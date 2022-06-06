@@ -9,15 +9,15 @@
 }
 
 .site-layout-background {
-  background: #140035;
+  background: #0a2c3c;
 }
 
 .ant-layout-sider-trigger {
-  background-color: #140035;
+  background-color: #0a2c3c;
 }
 
 .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #140035;
+  background-color: #0a2c3c;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }

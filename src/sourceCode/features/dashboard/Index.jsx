@@ -53,7 +53,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="1"
             icon={<DashboardOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
+            style={{ fontSize: "18px", display: "flex", color: "#0a2c3c" }}
             onClick={() => {
               navigate("/business/dashboard");
               setTitle("Dashboard Statistics");
@@ -64,7 +64,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="2"
             icon={<UnorderedListOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
+            style={{ fontSize: "18px", display: "flex", color: "#0a2c3c" }}
             onClick={() => {
               navigate("/business/product");
               setTitle("Products");
@@ -75,7 +75,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="3"
             icon={<QrcodeOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
+            style={{ fontSize: "18px", display: "flex", color: "#0a2c3c" }}
             onClick={() => {
               navigate("/business/generateqr");
               setTitle("Generate QR");
@@ -86,7 +86,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="4"
             icon={<FundProjectionScreenOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
+            style={{ fontSize: "18px", display: "flex", color: "#0a2c3c" }}
             onClick={() => {
               navigate("/business/generationplan");
               setTitle("Generation Plan");
@@ -97,7 +97,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="5"
             icon={<FormOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
+            style={{ fontSize: "18px", display: "flex", color: "#0a2c3c" }}
             onClick={() => {
               navigate("/business/actualconsumption");
               setTitle("Actual Consumtion");
@@ -108,7 +108,7 @@ export const Dashboard = () => {
           <Menu.Item
             key="6"
             icon={<HistoryOutlined style={{ fontSize: "18px" }} />}
-            style={{ fontSize: "18px", display: "flex", color: "#140035" }}
+            style={{ fontSize: "18px", display: "flex", color: "#0a2c3c" }}
             onClick={() => {
               navigate("/business/history");
               setTitle("History");

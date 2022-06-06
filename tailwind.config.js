@@ -7,7 +7,7 @@ module.exports = {
         "green-2": "#002333",
         "green-3": "#4bc834",
         "green-4": "#1e6100",
-        "purple-1": "#140035",
+        "purple-1": "#0a2c3c",
       },
       backgroundImage: {
         heroBg: "url('../src/sourceCode/assets/images/heroBg.jpg')",
