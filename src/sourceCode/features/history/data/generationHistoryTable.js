@@ -5,18 +5,18 @@ import QRCode from "react-qr-code";
 
 export const columns = [
   {
-    key: "qrId",
-    title: "QR Id",
-    render: (data) => console.log(data),
+    key: "callId",
+    title: "Call Id",
+    render: (data) => data[0].callId,
   },
   {
-    key: "isRedeemed",
-    title: "Redeemed",
-    render: (data) => console.log(data),
+    key: "productName",
+    title: "Product Name",
+    render: (data) => data[0]?.product?.title,
   },
   {
-    key: "qrCode",
-    title: "QR Code",
-    render: (data) => console.log(data),
+    key: "numberOfQr",
+    title: "Number of QR",
+    render: (data) => data.length,
   },
 ];

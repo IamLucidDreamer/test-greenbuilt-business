@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer } from "react";
 import { DataTable } from "../../components/table/Index";
-import { columns } from "../data/generationHistoryTable";
 import ActionButtons from "../../components/actionsButtons/Index";
 import axios from "../../../appConfig/httpHelper";
 import { useNavigate } from "react-router-dom";
@@ -22,8 +21,8 @@ export const GenerationHistory = () => {
       pagination: 15,
       trash: false,
       newProduct: false,
-      loadingAllProducts: false,
-      downloadAllProducts: false,
+      loadingAllHistory: false,
+      downloadAllHistory: false,
     }
   );
 
@@ -33,16 +32,16 @@ export const GenerationHistory = () => {
     pagination,
     trash,
     newProduct,
-    loadingAllProducts,
-    downloadAllProducts,
+    loadingAllHistory,
+    downloadAllHistory,
   } = actions;
 
   const [value, setValue] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
-    { qrHistory: [], allProducts: [] }
+    { qrHistory: [], allQr: [] }
   );
 
-  const { qrHistory, allProducts } = value;
+  const { qrHistory, allQr } = value;
 
   // Functions Used for Different Data
   const requestsCaller = () => {
@@ -54,14 +53,21 @@ export const GenerationHistory = () => {
         },
       })
       .then((res) => {
-        setValue({ qrHistory: res.data.data });
+        console.log(res.data);
+        const workingData = [];
+        for (const [key, value] of Object.entries(res?.data?.data)) {
+          workingData.push(value);
+        }
+        console.log(qrHistory);
+        setValue({ qrHistory: workingData });
+        console.log(qrHistory);
       })
       .catch((err) => console.log(err))
       .finally(setActions({ loading: false }));
   };
 
-  const getAllProducts = () => {
-    setActions({ loadingAllProducts: true });
+  const getAllQr = () => {
+    setActions({ loadingAllHistory: true });
     axios
       .get("/product/get-all/corporate", {
         headers: {
@@ -70,11 +76,11 @@ export const GenerationHistory = () => {
       })
       .then((res) => {
         toast.success("Products Ready for Download");
-        setActions({ downloadAllProducts: true });
-        setValue({ allProducts: res.data.data });
+        setActions({ downloadAllHistory: true });
+        setValue({ allQr: res.data.data });
       })
       .catch((err) => console.log(err))
-      .finally(setActions({ loadingAllProducts: true }));
+      .finally(setActions({ loadingAllHistory: true }));
   };
 
   useEffect(() => requestsCaller(), []);
@@ -82,6 +88,24 @@ export const GenerationHistory = () => {
   const onCloseDrawer = () => setActions({ drawer: false });
 
   console.log({ qrHistory });
+
+const columns = [
+    {
+      key: "callId",
+      title: "Call Id",
+      render: (data) => data[0].callId,
+    },
+    {
+      key: "productName",
+      title: "Product Name",
+      render: (data) => data[0]?.product?.title,
+    },
+    {
+      key: "numberOfQr",
+      title: "Number of QR",
+      render: (data) => data.length,
+    },
+  ];
 
   return (
     <div className="">
@@ -92,11 +116,11 @@ export const GenerationHistory = () => {
         showReFreshButton={true}
         refreshFunction={requestsCaller}
         showExportDataButton={true}
-        exportDataFunction={getAllProducts}
+        exportDataFunction={getAllQr}
         csvName={"GenerationHistory.csv"}
-        totalItems={allProducts}
-        loadingItems={loadingAllProducts}
-        downloadItems={downloadAllProducts}
+        totalItems={allQr}
+        loadingItems={loadingAllHistory}
+        downloadItems={downloadAllHistory}
         showAddNewButton={false}
         addNewFunction={""}
       />
