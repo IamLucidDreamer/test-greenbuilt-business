@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { DrawerComp } from "./Drawer";
+import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
+import { innerTableActionBtnDesign } from "../../components/styles/innerTableActions";
 
 export const GenerationHistory = () => {
   const navigate = useNavigate();
@@ -38,10 +40,10 @@ export const GenerationHistory = () => {
 
   const [value, setValue] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
-    { qrHistory: [], allQr: [] }
+    { qrHistory: [], allQr: [], drawerValue: "" }
   );
 
-  const { qrHistory, allQr } = value;
+  const { qrHistory, allQr, drawerValue } = value;
 
   // Functions Used for Different Data
   const requestsCaller = () => {
@@ -89,7 +91,7 @@ export const GenerationHistory = () => {
 
   console.log({ qrHistory });
 
-const columns = [
+  const columns = [
     {
       key: "callId",
       title: "Call Id",
@@ -105,7 +107,27 @@ const columns = [
       title: "Number of QR",
       render: (data) => data.length,
     },
+    {
+      key: "actions",
+      title: "Actions",
+      render: (data) => <ColumnActions record={data} />,
+    },
   ];
+
+  const ColumnActions = (props) => {
+    return (
+      <div className="flex justify-around">
+        <EyeOutlined
+          title="View"
+          style={innerTableActionBtnDesign}
+          onClick={() => {
+            setActions({ drawer: true });
+            setValue({ drawerValue: props?.record });
+          }}
+        />
+      </div>
+    );
+  };
 
   return (
     <div className="">
@@ -131,7 +153,8 @@ const columns = [
         title={"QR Code"}
         visible={drawer}
         onCloseDrawer={onCloseDrawer}
-        data={qrHistory}
+        data={drawerValue}
+        destroyOnClose={true}
       />
     </div>
   );

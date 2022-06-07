@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Drawer, Tabs, TabPane, Image } from "antd";
 import { Desc } from "../../components/layout/Desc";
 import QRCode from "react-qr-code";
@@ -13,13 +13,24 @@ export const DrawerComp = (props) => {
   const { TabPane } = Tabs;
 
   const [qrCode, setQrCode] = useState([]);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
+  useEffect(() => {
+    if(props.visible)
+    {
+    setQrCode(props.data);
+    }
+}, [props.data]);
+
+  console.log(props.data, "hello");
 
   const printDocument = () => {
     const input = document.getElementById("divToPrint");
+    console.log("Hello1");
     html2canvas(input).then((canvas) => {
+      console.log("Hello2");
       const imgData = canvas.toDataURL("image/png");
+      console.log("Hello3");
       const pdf = new jsPDF();
       pdf.addImage(imgData, "JPEG", 0, 0);
       pdf.output("dataurlnewwindow");
@@ -32,7 +43,9 @@ export const DrawerComp = (props) => {
       title={props.title}
       width="75%"
       placement="right"
-      onClose={() => props.onCloseDrawer()}
+      onClose={() => {
+        props.onCloseDrawer();
+      }}
       visible={props.visible}
     >
       <Tabs defaultActiveKey="1">

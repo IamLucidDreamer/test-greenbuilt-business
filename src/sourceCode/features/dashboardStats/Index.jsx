@@ -61,6 +61,21 @@ export const DashboardStats = () => {
           stat={stats.totalQRConsumed}
           icon={4}
         />
+        <StatsCard
+          title={"Total Points"}
+          stat={10000}
+          icon={4}
+        />
+        <StatsCard
+          title={"Total CO2 Offset"}
+          stat={`${Math.round(stats.availablePoints * 0.935)} Kg`}
+          icon={4}
+        />
+        <StatsCard
+          title={"Total H20 Saved"}
+          stat={`${Math.round(stats.availablePoints * 2.59)} Litres`}
+          icon={4}
+        />
       </div>
     </div>
   );
