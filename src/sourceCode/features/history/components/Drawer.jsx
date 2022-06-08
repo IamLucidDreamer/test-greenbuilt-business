@@ -16,11 +16,10 @@ export const DrawerComp = (props) => {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    if(props.visible)
-    {
-    setQrCode(props.data);
+    if (props.visible) {
+      setQrCode(props.data);
     }
-}, [props.data]);
+  }, [props.data]);
 
   console.log(props.data, "hello");
 
@@ -68,8 +67,18 @@ export const DrawerComp = (props) => {
                   className="flex flex-wrap justify-between gap-10 w-8/12"
                 >
                   {qrCode.map((data) => (
-                    <div className="border-purple-1 border-8 m-2 p-2">
+                    <div>
+                    <div
+                      className={
+                        !data?.isRedeemed
+                          ? "border-red-500 border-8 m-2 p-2"
+                          : "border-purple-1 border-8 m-2 p-2"
+                      }
+                    >
                       <QRCode key={data.qrId} value={data.qrId} size={80} />
+                      
+                    </div>
+                    <h1 className="text-xl">{data.isRedeemed}</h1>
                     </div>
                   ))}
                 </div>
