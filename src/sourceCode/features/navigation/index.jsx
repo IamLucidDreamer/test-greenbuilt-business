@@ -58,7 +58,7 @@ export const Navigation = () => {
             <Route path="dashboard" element={<DashboardStats />} />
             <Route path="product" element={<Products />} />
             <Route path="generateqr" element={<GenerateQr />} />
-            <Route path="generationplan" element={<GenerationPlan />} />
+            <Route path="consumptionplan" element={<GenerationPlan />} />
             <Route path="actualconsumption" element={<ActualConsumption />} />
             <Route path="documents" element={<Documents />} />
             <Route path="history" element={<History />} />

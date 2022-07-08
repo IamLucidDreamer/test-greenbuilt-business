@@ -88,11 +88,11 @@ export const Dashboard = () => {
             icon={<FundProjectionScreenOutlined style={{ fontSize: "18px" }} />}
             style={{ fontSize: "18px", display: "flex", color: "#0a2c3c" }}
             onClick={() => {
-              navigate("/business/generationplan");
-              setTitle("Generation Plan");
+              navigate("/business/consumptionplan");
+              setTitle("Consumption Plan");
             }}
           >
-            Generation Plan
+            Consumption Plan
           </Menu.Item>
           <Menu.Item
             key="5"
@@ -100,7 +100,7 @@ export const Dashboard = () => {
             style={{ fontSize: "18px", display: "flex", color: "#0a2c3c" }}
             onClick={() => {
               navigate("/business/actualconsumption");
-              setTitle("Actual Consumtion");
+              setTitle("Actual Consumption");
             }}
           >
             Actual Consumption

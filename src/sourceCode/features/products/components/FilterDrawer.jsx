@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import { Row, Col, Drawer, Tabs, TabPane, Image, Button } from "antd";
 import { Desc } from "../../components/layout/Desc";
 import { useSelector } from "react-redux";
 
 export const FilterDrawer = (props) => {
+  const [value, setValue] = useReducer(
+    (state, diff) => ({ ...state, ...diff }),
+    {
+      packagingTypeSelected: {},
+      uomSelected: {},
+    }
+  );
 
-  const [packagingTypeSelected, setPackagingTypeSelected] = useState("");
-  const [uomSelected, setUomSelected] = useState("");
-
-  const industryType = useSelector((state) => state.statics.industryType);
   const uom = useSelector((state) => state.statics.uom);
   const packagingType = useSelector((state) => state.statics.packagingType);
 
   const resetFilters = () => {
-    setPackagingTypeSelected("");
-    setUomSelected("");
-    props.resetFilter()
+    setValue({ packagingType: {}, uomSelected: {} });
+    props.resetFilter();
   };
 
   const { TabPane } = Tabs;
@@ -34,13 +36,8 @@ export const FilterDrawer = (props) => {
           <div className="flex flex-wrap gap-4">
             {packagingType.map((data) => (
               <Button
-                type={packagingTypeSelected === data.name ? "ghost" : "primary"}
-                style={{
-                  backgroundColor:
-                    packagingTypeSelected === data.name ? "#140035" : "",
-                  color: packagingTypeSelected === data.name ? "#fff" : "",
-                }}
-                onClick={() => setPackagingTypeSelected(data.name)}
+                type="primary"
+                onClick={() => {setValue({ packagingType : {...packagingType ,  "packagingType": data.name} }) ; console.log(value) }}
               >
                 {data.name}
               </Button>
@@ -50,12 +47,8 @@ export const FilterDrawer = (props) => {
           <div className="flex flex-wrap gap-4">
             {uom.map((data) => (
               <Button
-                type={uomSelected === data.name ? "ghost" : "primary"}
-                style={{
-                  backgroundColor: uomSelected === data.name ? "#140035" : "",
-                  color: uomSelected === data.name ? "#fff" : "",
-                }}
-                onClick={() => setUomSelected(data.name)}
+                type="primary"
+                onClick={() => setValue({uomSelected : data.name})}
               >
                 {data.name}
               </Button>
@@ -72,8 +65,7 @@ export const FilterDrawer = (props) => {
                 type="primary"
                 onClick={() =>
                   props.applyFilter({
-                    packagingTypeSelected,
-                    uomSelected,
+                    value
                   })
                 }
               >

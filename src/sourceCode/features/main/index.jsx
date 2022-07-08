@@ -1,6 +1,6 @@
 // @author Manas
 
-import React from "react";
+import React, { useReducer, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // Importing Assets
@@ -11,8 +11,34 @@ import Coupon from "../../assets/price.png";
 import Offers from "../../assets/OFF.png";
 import Reward from "../../assets/REWARD.png";
 import Blueprint from "../../assets/bp2.png";
+import axios from "../../appConfig/httpHelper";
+import { useSelector } from "react-redux";
 
 export const Home = () => {
+  const [actions, setActions] = useReducer(
+    (state, diff) => ({ ...state, ...diff }),
+    {
+      data: {},
+    }
+  );
+  const { data } = actions;
+
+  const requestsCaller = () => {
+    axios
+      .get(`/plugin/get/60`, {})
+      .then((res) => {
+        console.log(res.data)
+        setActions({
+          data: res.data,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    requestsCaller();
+  }, []);
+
   return (
     <div className="font-montserrat">
       <div className="bg-heroBg bg-no-repeat bg-cover bg-center">
@@ -89,12 +115,9 @@ export const Home = () => {
 
       <div className="bg-dark">
         <div className="py-24 px-4 lg:px-12 container mx-auto">
+          <img src={HeaderLogo} className="w-72 mx-auto mb-8"/>
           <h1 className="text-5xl md:text-6xl text-center leading-normal text-white font-light">
-            What We
-            <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-green-3 to-green-4">
-              {" "}
-              Offer
-            </span>
+            Impact We Have Created so Far
           </h1>
           <p className="text-xl text-center leading-normal text-white font-light md:w-1/3 mx-auto py-4">
             We show our love and affection when you support a green energy
@@ -103,21 +126,27 @@ export const Home = () => {
           <div className="pt-8 flex flex-col md:flex-row justify-evenly items-center">
             <div className="bg-white p-4 rounded-lg w-10/12 md:w-1/4 m-4">
               <h2 className="text-2xl font-medium text-center">
-                Reward Points
+                Total Green Energy Consumed
               </h2>
-              <img src={Reward} alt="" className="w-56 mx-auto" />
+              <h2 className="text-5xl font-bold text-center">
+                {data.data?.greenEnergyUsed}
+              </h2>
             </div>
             <div className="bg-white p-4 rounded-lg w-10/12 md:w-1/4 m-4">
-              <h2 className="text-2xl font-medium text-center">
-                Exclusive Offers
+            <h2 className="text-2xl font-medium text-center">
+                Total Co2 Offset
               </h2>
-              <img src={Offers} alt="" className="w-56 mx-auto" />
+              <h2 className="text-5xl font-bold text-center">
+                {data.data?.co2Offset}
+              </h2>
             </div>
             <div className="bg-white p-4 rounded-lg w-10/12 md:w-1/4 m-4">
-              <h2 className="text-2xl font-medium text-center">
-                Special Coupons
+            <h2 className="text-2xl font-medium text-center">
+                Total Water Saved
               </h2>
-              <img src={Coupon} alt="" className="w-56 mx-auto" />
+              <h2 className="text-5xl font-bold text-center">
+                {data.data?.waterSaved}
+              </h2>
             </div>
           </div>
         </div>

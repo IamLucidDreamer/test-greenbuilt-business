@@ -114,7 +114,7 @@ export const ActualConsumption = () => {
       ) : (
         <div className="">
           <ActionButtons
-            pageTitle={"Actual Consumptions"}
+            pageTitle={"Actual Consumption"}
             showTrashButton={false}
             showTrashFunction={""}
             showReFreshButton={true}

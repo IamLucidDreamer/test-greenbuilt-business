@@ -9,10 +9,12 @@ import { FilterDrawer } from "./components/FilterDrawer";
 import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { innerTableActionBtnDesign } from "../components/styles/innerTableActions";
 import { AddNewProduct } from "./components/AddNewProduct";
+import { useSelector } from "react-redux";
 
 export const Products = () => {
   const token = JSON.parse(localStorage.getItem("jwt"));
   const [showAdd, setShowAdd] = useState(false);
+  const user = useSelector((state) => state.user);
 
   // Declaring the States Required for the Working of the Component
   const [actions, setActions] = useReducer(
@@ -42,7 +44,12 @@ export const Products = () => {
 
   const [value, setValue] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
-    { products: [], allProducts: [], drawerValue: {}, filterValue: {} }
+    {
+      products: [],
+      allProducts: [],
+      drawerValue: {},
+      filterValue: {},
+    }
   );
 
   const { products, allProducts, drawerValue, filterValue } = value;
@@ -107,9 +114,7 @@ export const Products = () => {
   const getFilteredProduct = (value) => {
     setActions({ loading: true });
     const filterValue = {};
-    if (value.industryTypeSelected !== "") {
-      filterValue.industryType = value.industryTypeSelected;
-    }
+    filterValue.userId = user.id;
     if (value.packagingTypeSelected !== "") {
       filterValue.packagingType = value.packagingTypeSelected;
     }
@@ -171,11 +176,6 @@ export const Products = () => {
             <p>{data},</p>
           </div>
         )),
-    },
-    {
-      key: "industryType",
-      title: "Industry Type",
-      render: (data) => data.industryType,
     },
     {
       key: "uom",
