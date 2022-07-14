@@ -123,11 +123,6 @@ export const GenerateQr = () => {
       render: (data) => data.packagingType,
     },
     {
-      key: "industryType",
-      title: "Industry Type",
-      render: (data) => data.industryType,
-    },
-    {
       key: "uom",
       title: "UOM",
       render: (data) => data.uom,

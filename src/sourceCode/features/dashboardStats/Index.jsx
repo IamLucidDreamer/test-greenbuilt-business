@@ -19,6 +19,7 @@ export const DashboardStats = () => {
         },
       })
       .then((res) => {
+        console.log(res.data.data , "Hello");
         setStats(res.data.data);
       })
       .catch((err) => console.log(err))
@@ -63,18 +64,18 @@ export const DashboardStats = () => {
         />
         <StatsCard
           title={"Total Points"}
-          stat={10000}
-          icon={4}
+          stat={stats.totalPoints}
+          icon={5}
         />
         <StatsCard
           title={"Total CO2 Offset"}
-          stat={`${Math.round(stats.availablePoints * 0.935)} Kg`}
-          icon={4}
+          stat={`${Math.round(stats.totalPoints * 0.935)} Kg`}
+          icon={6}
         />
         <StatsCard
           title={"Total H20 Saved"}
-          stat={`${Math.round(stats.availablePoints * 2.59)} Litres`}
-          icon={4}
+          stat={`${Math.round(stats.totalPoints * 2.59)} Litres`}
+          icon={7}
         />
       </div>
     </div>

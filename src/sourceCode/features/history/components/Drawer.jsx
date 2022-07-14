@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Drawer, Tabs, TabPane, Image } from "antd";
-import { Desc } from "../../components/layout/Desc";
 import QRCode from "react-qr-code";
-import { toast } from "react-toastify";
-import axios from "../../../appConfig/httpHelper";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 
@@ -26,6 +21,7 @@ export const DrawerComp = (props) => {
   const printDocument = () => {
     const input = document.getElementById("divToPrint");
     console.log("Hello1");
+    console.log(input);
     html2canvas(input).then((canvas) => {
       console.log("Hello2");
       const imgData = canvas.toDataURL("image/png");
@@ -34,7 +30,7 @@ export const DrawerComp = (props) => {
       pdf.addImage(imgData, "JPEG", 0, 0);
       pdf.output("dataurlnewwindow");
       pdf.save(`qrDownload ${props?.date}.pdf`);
-    });
+    }).catch((err)=>console.log(err))
   };
 
   return (
@@ -61,13 +57,13 @@ export const DrawerComp = (props) => {
                   </button>
                 ) : null}
               </Col>
-              {show ? (
-                <div
+              <div
                   id="divToPrint"
                   className="flex flex-wrap justify-between gap-10 w-8/12"
                 >
+              {show ? (
+                <>
                   {qrCode.map((data) => (
-                    <div>
                     <div
                       className={
                         !data?.isRedeemed
@@ -78,11 +74,10 @@ export const DrawerComp = (props) => {
                       <QRCode key={data.qrId} value={data.qrId} size={80} />
                       
                     </div>
-                    <h1 className="text-xl">{data.isRedeemed}</h1>
-                    </div>
                   ))}
-                </div>
+              </>
               ) : null}
+              </div>
             </Row>
           </form>
         </TabPane>
