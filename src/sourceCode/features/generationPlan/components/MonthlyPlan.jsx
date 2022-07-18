@@ -61,14 +61,11 @@ export const MonthlyPlan = () => {
 
   const DeleteItem = (planId) => {
     console.log(planId);
-    console.log(token)
+    console.log(token);
     axios
-      .delete(
-        `/monthly-plan/consumption/delete/plan-id/${planId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+      .delete(`/monthly-plan/consumption/delete/plan-id/${planId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => {
         toast.success(res.data.message);
         requestsCaller();
@@ -151,13 +148,12 @@ export const MonthlyPlan = () => {
             setValue({ drawerValue: props?.record });
           }}
         />
-        {!props?.record?.isApproved ? (
-          <DeleteOutlined
-            title="Ban"
-            style={innerTableActionBtnDesign}
-            onClick={() => DeleteItem(props?.record?.monthlyPlanId)}
-          />
-        ) : null}
+        {!props?.record?.isApproved &&
+        <DeleteOutlined
+          title="Ban"
+          style={innerTableActionBtnDesign}
+          onClick={() => DeleteItem(props?.record?.monthlyPlanId)}
+        />}
       </div>
     );
   };
@@ -165,7 +161,7 @@ export const MonthlyPlan = () => {
   return (
     <>
       {newPlan ? (
-        <AddNewEntry back={backAddNewPlan} />
+        <AddNewEntry back={backAddNewPlan} requestsCaller={requestsCaller} />
       ) : (
         <div className="">
           <ActionButtons

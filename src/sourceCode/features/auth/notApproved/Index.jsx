@@ -8,31 +8,34 @@ import * as Yup from "yup";
 import { authenticated } from "../../../utils/auth";
 import axios from "../../../appConfig/httpHelper";
 import { toast } from "react-toastify";
-import setUserDetails from "../../../store/reducers"
+import setUserDetails from "../../../store/reducers";
 
 export const NotApproved = () => {
-  const token = localStorage.getItem("jwt");
+  const token = JSON.parse(localStorage.getItem("jwt"));
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-
-    console.log(user)
+    console.log(user, "Hello world user here");
 
     axios
-    .get(`/user/get/${user.id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((res) => {
-      toast.success("User Has been Approved by the Admin")
-      console.log(res)
-      dispatch(setUserDetails(res?.data?.data))
-    })
-    .catch((err) => console.log(err))
-    
+      .get(`/user/get/${user.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.user?.isApproved) {
+          toast.success("User Has been Approved by the Admin");
+          console.log(res);
+          console.log(user, "User");
+          // dispatch(setUserDetails(res?.data?.user));s
+          navigate("/business/dashboard");
+        }
+      })
+      .catch((err) => console.log(err));
+
     if (token && user.role === 2) {
       if (user.isApproved) {
         navigate("/business/dashboard");

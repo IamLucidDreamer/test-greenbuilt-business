@@ -8,12 +8,9 @@ import { ArrowRightOutlined } from "@ant-design/icons";
 
 export const UserDetails = (props) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const industryType = useSelector((state) => state.statics.industryType);
-  const sourceType = useSelector((state) => state.statics.sourceType);
-  const uom = useSelector((state) => state.statics.uom);
-  const packagingType = useSelector((state) => state.statics.packagingType);
+
 
   // SignUp User Details Form Handling
   const formik = useFormik({
@@ -25,8 +22,6 @@ export const UserDetails = (props) => {
       ebServiceNo: "",
       industryType: "",
       gstin: "",
-      powerPurchaseAgreement: "",
-      energyWheelingAgreement: "",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Invalid email address").required("Required"),
@@ -34,8 +29,6 @@ export const UserDetails = (props) => {
       ebServiceNo: Yup.string().required("Required"),
       industryType: Yup.string().required("Required"),
       gstin: Yup.string().required("Required"),
-      powerPurchaseAgreement: Yup.string().required("Required"),
-      energyWheelingAgreement: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
       const {
@@ -46,8 +39,6 @@ export const UserDetails = (props) => {
         ebServiceNo,
         gstin,
         industryType,
-        powerPurchaseAgreement,
-        energyWheelingAgreement,
       } = values;
       dispatch(
         signUpBusiness({
@@ -58,8 +49,6 @@ export const UserDetails = (props) => {
           ebServiceNo,
           gstin,
           industryType,
-          powerPurchaseAgreement,
-          energyWheelingAgreement,
         })
       );
     },
@@ -139,44 +128,6 @@ export const UserDetails = (props) => {
         />
         {formik.touched.password && formik.errors.password ? (
           <div>{formik.errors.password}</div>
-        ) : null}
-      </div>
-      <div className="my-5 flex flex-col">
-      <lable>Power Purchase Agreement</lable>
-        <input
-          type="file"
-          placeholer="Power Purchase Agreement"
-          className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
-          onChange={(event) => {
-            console.log(event.target.files);
-            formik.setFieldValue(
-              "powerPurchaseAgreement",
-              event.currentTarget.files[0]
-            );
-          }}
-        />
-        {formik.touched.powerPurchaseAgreement &&
-        formik.errors.powerPurchaseAgreement ? (
-          <div>{formik.errors.powerPurchaseAgreement}</div>
-        ) : null}
-      </div>
-      <div className="my-5 flex flex-col">
-        <lable>Energy Wheeling Agreement</lable>
-        <input
-          type="file"
-          placeholer="Energy Wheeling Agreement"
-          className="p-3 text-xl text-purple-1 rounded-xl border-2 border-purple-1 border-opacity-50 focus:outline-purple-11"
-          onChange={(event) => {
-            console.log(event.target.files);
-            formik.setFieldValue(
-              "energyWheelingAgreement",
-              event.currentTarget.files[0]
-            );
-          }}
-        />
-        {formik.touched.energyWheelingAgreement &&
-        formik.errors.energyWheelingAgreement ? (
-          <div>{formik.errors.energyWheelingAgreement}</div>
         ) : null}
       </div>
       <button

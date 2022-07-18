@@ -248,7 +248,7 @@ export const Products = () => {
   return (
     <>
       {showAdd ? (
-        <AddNewProduct back={backAddNewProduct} />
+        <AddNewProduct back={backAddNewProduct} requestsCaller={requestsCaller}/>
       ) : (
         <div className="">
           <ActionButtons

@@ -25,6 +25,7 @@ import {
   getSourceType,
   getUom,
 } from "../../store/actions/statics";
+import { DocumentsUpload } from "../auth/documentUpload/Index";
 
 export const Navigation = () => {
   const user = useSelector((state) => state.user);
@@ -48,6 +49,7 @@ export const Navigation = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/documents" element={<DocumentsUpload />} />
       <Route path="/notapproved" element={<NotApproved />} />
 
       {/* Handling the Business User Routes */}

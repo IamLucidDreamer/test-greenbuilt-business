@@ -23,8 +23,13 @@ export const SignUp = () => {
     if (token && user.role === 2) {
       if (user.isApproved) {
         navigate("/business/dashboard");
-      } else {
-        navigate("notapproved");
+      }
+      else if(user?.documentArray?.length < 2)
+      {
+        navigate("/documents")
+      }
+       else {
+        navigate("/notapproved");
       }
     }
   }, [user]);

@@ -51,6 +51,7 @@ export function AddNewProduct(props) {
       .then((res) => {
         toast.success(res.data.message);
         props.back();
+        props.requestsCaller()
       })
       .catch((err) => {});
   };

@@ -12,7 +12,7 @@ export const DataTable = ({
   pagination,
 }) => {
   return (
-    <div className="shadow-lg mb-8">
+    <div className="shadow-lg">
       <Table
         columns={columns}
         dataSource={usersData}
