@@ -25,6 +25,9 @@ module.exports = {
         log: "url('../src/assets/desk.png')",
         loginBg: "url('../src/sourceCode/assets/images/loginBg.jpg')",
         signupBg: "url('../src/sourceCode/assets/images/signupBg.jpg')",
+        signupBg2: "url('../src/sourceCode/assets/images/signup2Bg.jpg')",
+        signupBg3: "url('../src/sourceCode/assets/images/signup3Bg.jpg')",
+        verificationBg:"url('../src/sourceCode/assets/images/verificationBg.png')",
         docsBg: "url('../src/sourceCode/assets/images/docsBg.jpg')",
         dashBg:
           "url('https://static.vecteezy.com/system/resources/thumbnails/001/886/903/small/light-blue-green-blurred-background-vector.jpg')",

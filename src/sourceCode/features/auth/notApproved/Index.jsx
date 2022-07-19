@@ -8,7 +8,9 @@ import * as Yup from "yup";
 import { authenticated } from "../../../utils/auth";
 import axios from "../../../appConfig/httpHelper";
 import { toast } from "react-toastify";
+import { ArrowRightOutlined } from "@ant-design/icons";
 import setUserDetails from "../../../store/reducers";
+import setAuth from "../../../store/reducers"
 
 export const NotApproved = () => {
   const token = JSON.parse(localStorage.getItem("jwt"));
@@ -17,8 +19,19 @@ export const NotApproved = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(user, "Hello world user here");
+    requestsCaller();
+    const token = JSON.parse(localStorage.getItem("jwt"));
+    if (token && user.role === 2) {
+      if (user.isApproved) {
+        navigate("/business/dashboard");
+      }
+    }
+    else{
+      navigate("/login")
+    }
+  }, [user]);
 
+  const requestsCaller = () => {
     axios
       .get(`/user/get/${user.id}`, {
         headers: {
@@ -30,31 +43,38 @@ export const NotApproved = () => {
           toast.success("User Has been Approved by the Admin");
           console.log(res);
           console.log(user, "User");
-          // dispatch(setUserDetails(res?.data?.user));s
-          navigate("/business/dashboard");
+          localStorage.removeItem("jwt");
+          dispatch(setUserDetails({}));
+          dispatch(setAuth(false));
+          axios.get("/signout");
+          navigate("/login");
+        } else {
+          toast.error("User Has not been Approved by the Admin yet.");
         }
       })
       .catch((err) => console.log(err));
-
-    if (token && user.role === 2) {
-      if (user.isApproved) {
-        navigate("/business/dashboard");
-      }
-    }
-  }, [user]);
+  };
 
   return (
-    <>
-      <div className="min-h-screen  bg-gradient-to-br from-[#017f02] to-[#06788f] flex items-center justify-center">
-        <div className="w-11/12 sm:w-9/12 md:w-2/3 lg:w-1/3 bg-white rounded-lg p-4">
+    <div className="bg-verificationBg bg-no-repeat bg-cover bg-center duration-500">
+      <img src={Logo} className="w-60 mx-auto fixed top-2 left-2 " alt="" />
+      <div className="min-h-screen bg-gradient-to-br from-purple-1 to-transparent flex items-center justify-center">
+        <div className="w-11/12 sm:w-9/12 md:w-2/3 lg:w-1/3 bg-white rounded-lg p-4 bg-opacity-80">
           <img src={Logo} className="w-9/12 mx-auto" alt="" />
 
-          <h1 className="text-lg font-bold text-purple-1 pt-3 text-center">
+          <h1 className="text-xl font-bold text-purple-1 pt-3 text-center">
             Your Account Verification is still pending. You'll be able to login
             Once your account is Verified.
           </h1>
+          <button
+            onClick={requestsCaller}
+            className="mx-auto w-48 py-3 px-6 my-5 bg-purple-1 border-2 border-purple-1 focus:outline-none rounded-2xl text-lg text-left text-white font-bold group duration-500 flex justify-evenly items-center"
+          >
+            Check Status
+            <ArrowRightOutlined className="group-hover:translate-x-1.5 duration-500" />
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };

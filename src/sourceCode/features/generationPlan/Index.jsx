@@ -14,7 +14,7 @@ export const GenerationPlan = () => {
 
   return (
     <div className="">
-      <div className="flex justify-around items-center mt-4"></div>
+      <div className="flex justify-around items-center"></div>
       <MonthlyPlan />
     </div>
   );

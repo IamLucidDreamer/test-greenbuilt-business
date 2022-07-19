@@ -11,7 +11,6 @@ export const UserDetails = (props) => {
 
   const industryType = useSelector((state) => state.statics.industryType);
 
-
   // SignUp User Details Form Handling
   const formik = useFormik({
     initialValues: {
@@ -40,6 +39,7 @@ export const UserDetails = (props) => {
         gstin,
         industryType,
       } = values;
+      props.setLoader(true);
       dispatch(
         signUpBusiness({
           name,
@@ -51,6 +51,7 @@ export const UserDetails = (props) => {
           industryType,
         })
       );
+      setTimeout(() => props.setLoader(false), 4000);
     },
   });
 

@@ -106,7 +106,7 @@ export const DocumentsUpload = () => {
       <img src={Logo} className="w-60 mx-auto fixed top-2 left-2 " alt="" />
       <div className="min-h-screen bg-gradient-to-br from-purple-1 to-transparent flex items-center justify-end">
         <div className="w-11/12 sm:w-9/12 md:w-2/3 lg:w-1/3 bg-white rounded-3xl shadow-xl px-6 py-8 mx-auto sm:mr-8 md:mr-16 lg:mr-24 xl:mr-32">
-          <Spin spinning={loader}>
+          <Spin spinning={loader} tip="Loading...">
             <h1 className="text-3xl font-bold text-purple-1 pt-3 text-left">
               Documents Upload ...
             </h1>

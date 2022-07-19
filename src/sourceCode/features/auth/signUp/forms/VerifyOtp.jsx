@@ -14,6 +14,7 @@ export const VerifyOtp = (props) => {
     }),
     onSubmit: (values) => {
       const { otp } = values;
+      props.setLoader(true);
       getVerify(otp);
     },
   });
@@ -30,7 +31,8 @@ export const VerifyOtp = (props) => {
       .catch((err) => {
         console.log(err);
         toast.error("OTP Verification Failed");
-      });
+      })
+      .finally(() => props.setLoader(false));
   };
 
   return (

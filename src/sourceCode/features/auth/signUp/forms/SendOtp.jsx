@@ -26,6 +26,7 @@ export const SendOtp = (props) => {
     const number = `${countryCode}${phoneNumber}`;
     try {
       const response = await setUpRecaptha(number);
+      props.setLoader(true)
       if (response) {
         props.changeFormNumber(3);
         toast.success("OTP Sent Successfully");
@@ -36,6 +37,7 @@ export const SendOtp = (props) => {
       toast.error(`Unable to Send the OTP. ${err.message}`);
       props.changeFormNumber(1);
     }
+    props.setLoader(false)
   };
 
   const formik = useFormik({
