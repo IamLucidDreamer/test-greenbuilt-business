@@ -111,11 +111,6 @@ export const MonthlyPlan = () => {
       render: (data) => data.toal,
     },
     {
-      key: "defaultedPoints",
-      title: "Defaulted Points",
-      render: (data) => user.defaultedPoints,
-    },
-    {
       key: "date",
       title: "Date",
       render: (data) => data.date,
