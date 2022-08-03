@@ -50,7 +50,7 @@ export const AddNewEntry = (props) => {
       .then((res) => {
         toast.success(res.data.message);
         props.back();
-        props.requestsCaller()
+        props.requestsCaller();
       })
       .catch((err) => {
         console.log(err);
@@ -126,6 +126,8 @@ export const AddNewEntry = (props) => {
             </div>
             <div className="p-1 bg-gray-100 flex items-center justify-center border-l-1">
               <input
+                type="number"
+                min="0"
                 onChange={(e) => {
                   setData([
                     ...data.slice(0, index),
@@ -143,6 +145,8 @@ export const AddNewEntry = (props) => {
             </div>
             <div className="p-1 bg-gray-100 flex items-center justify-center w-56 border-l-1">
               <input
+                type="number"
+                min="0"
                 onChange={(e) =>
                   setData([
                     ...data.slice(0, index),
@@ -159,6 +163,8 @@ export const AddNewEntry = (props) => {
             </div>
             <div className="p-3 bg-gray-100 flex items-center justify-center w-56 border-l-1">
               <input
+                type="number"
+                min="0"
                 onChange={(e) =>
                   setData([
                     ...data.slice(0, index),
