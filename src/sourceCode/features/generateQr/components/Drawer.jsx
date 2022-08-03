@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { useSelector } from "react-redux";
+import "./Drawer.css";
 
 export const DrawerComp = (props) => {
   const { TabPane } = Tabs;
@@ -121,6 +122,7 @@ export const DrawerComp = (props) => {
                 <input
                   placeholder="Number of QR's Required"
                   type="number"
+                  min="0"
                   className="p-3 text-xl text-dark rounded-xl border-2 border-dark border-opacity-50 focus:outline-dark"
                   {...formik.getFieldProps("noOfUnits")}
                 />
@@ -137,6 +139,7 @@ export const DrawerComp = (props) => {
                 <input
                   placeholder={`Total ${props?.data?.uom} of the Package`}
                   type="number"
+                  min="0"
                   className="p-3 my-3 text-xl text-dark rounded-xl border-2 border-dark border-opacity-50 focus:outline-dark"
                   {...formik.getFieldProps("uomUnits")}
                 />
@@ -152,7 +155,11 @@ export const DrawerComp = (props) => {
               <Col span={12} lg={12} md={12} sm={32} xs={32}>
                 {show ? (
                   <button
-                    onClick={() => printDocument()}
+                    type="button"
+                    onClick={() => {
+                      window.print();
+                      console.log("download");
+                    }}
                     className="w-36 py-2 px-4 my-5 bg-dark border-2 border-dark focus:outline-none rounded-2xl text-lg text-left text-white font-bold group duration-500 flex justify-evenly items-center"
                   >
                     Download
