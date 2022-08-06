@@ -3,6 +3,7 @@ import { Row, Col, Drawer, Tabs, TabPane, Image } from "antd";
 import QRCode from "react-qr-code";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import "../../generateQr/components/Drawer.css"
 
 export const DrawerComp = (props) => {
   const { TabPane } = Tabs;
@@ -50,7 +51,8 @@ export const DrawerComp = (props) => {
               <Col span={12} lg={12} md={12} sm={32} xs={32}>
                 {show ? (
                   <button
-                    onClick={() => printDocument()}
+                    type="button"
+                    onClick={() => window.print()}
                     className="w-36 py-2 px-4 my-5 bg-purple-1 border-2 border-purple-1 focus:outline-none rounded-2xl text-lg text-left text-white font-bold group duration-500 flex justify-evenly items-center"
                   >
                     Download
