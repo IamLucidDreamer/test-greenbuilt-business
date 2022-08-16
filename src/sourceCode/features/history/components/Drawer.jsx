@@ -62,7 +62,7 @@ export const DrawerComp = (props) => {
               </Col>
               <div
                 id="divToPrint"
-                className="flex flex-wrap justify-between gap-10 w-8/12"
+                className="w-7/11 grid grid-cols-4 gap-20"
               >
                 {show ? (
                   <>

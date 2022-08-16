@@ -156,10 +156,7 @@ export const DrawerComp = (props) => {
                 {show ? (
                   <button
                     type="button"
-                    onClick={() => {
-                      window.print();
-                      console.log("download");
-                    }}
+                    onClick={() => printDocument()}
                     className="w-36 py-2 px-4 my-5 bg-dark border-2 border-dark focus:outline-none rounded-2xl text-lg text-left text-white font-bold group duration-500 flex justify-evenly items-center"
                   >
                     Download
@@ -169,7 +166,7 @@ export const DrawerComp = (props) => {
               {show ? (
                 <div
                   id="divToPrint"
-                  className="flex flex-wrap justify-between gap-10 w-8/12"
+                  className="w-7/11 grid grid-cols-4 gap-20"
                 >
                   {qrCode.map((data) => (
                     <div className="border-dark border-8 m-2 p-2">
