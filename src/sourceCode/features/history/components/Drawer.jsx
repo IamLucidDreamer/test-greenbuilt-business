@@ -23,15 +23,17 @@ export const DrawerComp = (props) => {
     const input = document.getElementById("divToPrint");
     console.log("Hello1");
     console.log(input);
-    html2canvas(input).then((canvas) => {
-      console.log("Hello2");
-      const imgData = canvas.toDataURL("image/png");
-      console.log("Hello3");
-      const pdf = new jsPDF();
-      pdf.addImage(imgData, "JPEG", 0, 0);
-      pdf.output("dataurlnewwindow");
-      pdf.save(`qrDownload ${props?.date}.pdf`);
-    }).catch((err)=>console.log(err))
+    html2canvas(input)
+      .then((canvas) => {
+        console.log("Hello2");
+        const imgData = canvas.toDataURL("image/png");
+        console.log("Hello3");
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, "JPEG", 0, 0);
+        pdf.output("dataurlnewwindow");
+        pdf.save(`qrDownload ${props?.date}.pdf`);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -52,7 +54,7 @@ export const DrawerComp = (props) => {
                 {show ? (
                   <button
                     type="button"
-                    onClick={() => window.print()}
+                    onClick={() => printDocument()}
                     className="w-36 py-2 px-4 my-5 bg-purple-1 border-2 border-purple-1 focus:outline-none rounded-2xl text-lg text-left text-white font-bold group duration-500 flex justify-evenly items-center"
                   >
                     Download
@@ -60,25 +62,24 @@ export const DrawerComp = (props) => {
                 ) : null}
               </Col>
               <div
-                  id="divToPrint"
-                  className="flex flex-wrap justify-between gap-10 w-8/12"
-                >
-              {show ? (
-                <>
-                  {qrCode.map((data) => (
-                    <div
-                      className={
-                        !data?.isRedeemed
-                          ? "border-red-500 border-8 m-2 p-2"
-                          : "border-purple-1 border-8 m-2 p-2"
-                      }
-                    >
-                      <QRCode key={data.qrId} value={data.qrId} size={80} />
-                      
-                    </div>
-                  ))}
-              </>
-              ) : null}
+                id="divToPrint"
+                className="flex flex-wrap justify-between gap-10 w-8/12"
+              >
+                {show ? (
+                  <>
+                    {qrCode.map((data) => (
+                      <div
+                        className={
+                          !data?.isRedeemed
+                            ? "border-red-500 border-8 m-2 p-2"
+                            : "border-purple-1 border-8 m-2 p-2"
+                        }
+                      >
+                        <QRCode key={data.qrId} value={data.qrId} size={80} />
+                      </div>
+                    ))}
+                  </>
+                ) : null}
               </div>
             </Row>
           </form>
