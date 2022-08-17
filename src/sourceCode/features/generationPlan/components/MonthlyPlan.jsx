@@ -7,10 +7,11 @@ import ActionButtons from "../../components/actionsButtons/Index";
 import { DataTable } from "../../components/table/Index";
 import { QrcodeOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { innerTableActionBtnDesign } from "../../components/styles/innerTableActions";
 import { AddNewEntry } from "./AddNewEntry";
 import { DrawerComp } from "./Drawer";
+import { EditEntry } from "./EditEntry";
 
 export const MonthlyPlan = () => {
   const token = JSON.parse(localStorage.getItem("jwt"));
@@ -28,17 +29,18 @@ export const MonthlyPlan = () => {
       newPlan: false,
       loadingAllPlans: false,
       downloadAllPlans: false,
+      editPlan: false,
     }
   );
 
-  const { drawer, newPlan, loading, pagination } = actions;
+  const { drawer, newPlan, loading, pagination, editPlan } = actions;
 
   const [value, setValue] = useReducer(
     (state, diff) => ({ ...state, ...diff }),
-    { plans: [], allPlans: [], drawerValue: {} }
+    { plans: [], allPlans: [], drawerValue: {}, editValue: {} }
   );
 
-  const { plans, allPlans, drawerValue } = value;
+  const { plans, allPlans, drawerValue, editValue } = value;
 
   // Functions Used for Different Data
   const requestsCaller = () => {
@@ -104,6 +106,10 @@ export const MonthlyPlan = () => {
     setActions({ drawer: false });
   };
 
+  const backEditPlan = () => {
+    setActions({ editPlan: false });
+  };
+
   const columns = [
     {
       key: "totalPlan",
@@ -143,6 +149,15 @@ export const MonthlyPlan = () => {
             setValue({ drawerValue: props?.record });
           }}
         />
+        <EditOutlined
+          title="Edit"
+          style={innerTableActionBtnDesign}
+          onClick={() => {
+            setActions({ editPlan: true });
+            setValue({editValue: props?.record})
+            console.log(props?.record , "Hello")
+          }}
+        />
         {!props?.record?.isApproved &&
         <DeleteOutlined
           title="Ban"
@@ -155,7 +170,7 @@ export const MonthlyPlan = () => {
 
   return (
     <>
-      {newPlan ? (
+      {/* {newPlan ? (
         <AddNewEntry back={backAddNewPlan} requestsCaller={requestsCaller} />
       ) : (
         <div className="">
@@ -183,7 +198,43 @@ export const MonthlyPlan = () => {
             data={drawerValue}
           />
         </div>
-      )}
+      )} */}
+      {(()=>{
+        if (newPlan) {
+          return <AddNewEntry back={backAddNewPlan} requestsCaller={requestsCaller} />
+        }
+        else if (editPlan) {
+          return <EditEntry back={backEditPlan} requestsCaller={requestsCaller} data={editValue}/>
+        }
+        else
+        return(
+          <div className="">
+          <ActionButtons
+            pageTitle={"Monthly Consumption Plan"}
+            showTrashButton={false}
+            showTrashFunction={""}
+            showReFreshButton={true}
+            refreshFunction={requestsCaller}
+            showExportDataButton={false}
+            exportDataFunction={""}
+            totalItems={""}
+            loadingItems={""}
+            downloadItems={""}
+            showAddNewButton={true}
+            addNewFunction={addNewPlan}
+          />
+          <div className="border-2 mt-5">
+            <DataTable usersData={plans} columns={columns} loading={loading} />
+          </div>
+          <DrawerComp
+            title={"QR Code"}
+            visible={drawer}
+            onCloseDrawer={onCloseDrawer}
+            data={drawerValue}
+          />
+        </div>
+        )
+      })()}
     </>
   );
 };
