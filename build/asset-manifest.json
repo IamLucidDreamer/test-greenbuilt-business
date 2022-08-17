@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.css": "/static/css/main.ff40bc6a.css",
-    "main.js": "/static/js/main.6460e3fc.js",
-    "static/js/703.a059cc5a.chunk.js": "/static/js/703.a059cc5a.chunk.js",
-    "static/js/513.d482d56c.chunk.js": "/static/js/513.d482d56c.chunk.js",
+    "main.css": "/static/css/main.d790e4dc.css",
+    "main.js": "/static/js/main.3f4b3b7d.js",
+    "static/js/703.480f1585.chunk.js": "/static/js/703.480f1585.chunk.js",
+    "static/js/513.7520bff4.chunk.js": "/static/js/513.7520bff4.chunk.js",
     "static/js/787.d729b48e.chunk.js": "/static/js/787.d729b48e.chunk.js",
     "static/media/verificationBg.png": "/static/media/verificationBg.164672a590619f40558a.png",
     "static/media/bp2.png": "/static/media/bp2.7919b4a2613ce74b18b2.png",
@@ -18,14 +18,14 @@
     "static/media/logoGreenbuilt.png": "/static/media/logoGreenbuilt.a7a45d8973397145c087.png",
     "static/media/REWARD.png": "/static/media/REWARD.e88fd41a91299416b2fc.png",
     "index.html": "/index.html",
-    "main.ff40bc6a.css.map": "/static/css/main.ff40bc6a.css.map",
-    "main.6460e3fc.js.map": "/static/js/main.6460e3fc.js.map",
-    "703.a059cc5a.chunk.js.map": "/static/js/703.a059cc5a.chunk.js.map",
-    "513.d482d56c.chunk.js.map": "/static/js/513.d482d56c.chunk.js.map",
+    "main.d790e4dc.css.map": "/static/css/main.d790e4dc.css.map",
+    "main.3f4b3b7d.js.map": "/static/js/main.3f4b3b7d.js.map",
+    "703.480f1585.chunk.js.map": "/static/js/703.480f1585.chunk.js.map",
+    "513.7520bff4.chunk.js.map": "/static/js/513.7520bff4.chunk.js.map",
     "787.d729b48e.chunk.js.map": "/static/js/787.d729b48e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ff40bc6a.css",
-    "static/js/main.6460e3fc.js"
+    "static/css/main.d790e4dc.css",
+    "static/js/main.3f4b3b7d.js"
   ]
 }
