@@ -3,6 +3,7 @@ import { Row, Col, Drawer, Tabs, TabPane, Image } from "antd";
 import QRCode from "react-qr-code";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import "../../generateQr/components/Drawer.css"
 
 export const DrawerComp = (props) => {
   const { TabPane } = Tabs;
