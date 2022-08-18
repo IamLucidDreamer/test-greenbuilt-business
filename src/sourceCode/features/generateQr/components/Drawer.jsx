@@ -122,7 +122,7 @@ export const DrawerComp = (props) => {
                 <input
                   placeholder="Number of QR's Required"
                   type="number"
-                  min="0"
+                  min="1"
                   className="p-3 text-xl text-dark rounded-xl border-2 border-dark border-opacity-50 focus:outline-dark"
                   {...formik.getFieldProps("noOfUnits")}
                 />
@@ -139,7 +139,7 @@ export const DrawerComp = (props) => {
                 <input
                   placeholder={`Total ${props?.data?.uom} of the Package`}
                   type="number"
-                  min="0"
+                  min="1"
                   className="p-3 my-3 text-xl text-dark rounded-xl border-2 border-dark border-opacity-50 focus:outline-dark"
                   {...formik.getFieldProps("uomUnits")}
                 />
@@ -166,7 +166,7 @@ export const DrawerComp = (props) => {
               {show ? (
                 <div
                   id="divToPrint"
-                  className="w-7/11 grid grid-cols-4 gap-20"
+                  className="p-[20px] w-7/11 grid grid-cols-4 gap-20"
                 >
                   {qrCode.map((data) => (
                     <div className="border-dark border-8 m-2 p-2">

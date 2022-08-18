@@ -53,7 +53,7 @@ export function AddNewProduct(props) {
         props.back();
         props.requestsCaller();
       })
-      .catch((err) => {});
+      .catch((err) => {toast.error("Product already exists!")});
   };
 
   const handleChangePackagingType = (value) => {

@@ -63,7 +63,7 @@ export const DrawerComp = (props) => {
               </Col>
               <div
                 id="divToPrint"
-                className="w-7/11 grid grid-cols-4 gap-20"
+                className="p-[20px] w-7/11 grid grid-cols-4 gap-20"
               >
                 {show ? (
                   <>
