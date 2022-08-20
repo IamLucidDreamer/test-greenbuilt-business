@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Drawer, Tabs, TabPane, Image } from "antd";
+import { Row, Col, Drawer, Tabs, TabPane, Image, Spin } from "antd";
 import { Desc } from "../../components/layout/Desc";
 import QRCode from "react-qr-code";
 import { toast } from "react-toastify";
@@ -15,6 +15,8 @@ export const DrawerComp = (props) => {
   const { TabPane } = Tabs;
 
   const user = useSelector((state) => state.user);
+
+  const [loading, setLoading] = useState(false);
 
   const [qrCode, setQrCode] = useState([]);
   const [show, setShow] = useState(false);
@@ -92,6 +94,7 @@ export const DrawerComp = (props) => {
       pdf.addImage(imgData, "JPEG", 0, 0);
       pdf.output("dataurlnewwindow");
       pdf.save(`qrDownload ${date}.pdf`);
+      setLoading(false);
     });
   };
 
@@ -116,67 +119,71 @@ export const DrawerComp = (props) => {
       </Row>
       <Tabs defaultActiveKey="1">
         <TabPane tab="Generate QR" key="1">
-          <form onSubmit={formik.handleSubmit}>
-            <Row>
-              <Col span={12} lg={12} md={12} sm={32} xs={32}>
-                <input
-                  placeholder="Number of QR's Required"
-                  type="number"
-                  min="1"
-                  className="p-3 text-xl text-dark rounded-xl border-2 border-dark border-opacity-50 focus:outline-dark"
-                  {...formik.getFieldProps("noOfUnits")}
-                />
-              </Col>
-              <Col span={12} lg={12} md={12} sm={32} xs={32}>
-                <select className="w-72 p-3 text-xl text-dark rounded-xl border-2 border-dark border-opacity-50 focus:outline-dark">
-                  <option disabled>Select the Packaging Type</option>
-                  {props?.data?.packagingType?.map((data) => (
-                    <option>{data}</option>
-                  ))}
-                </select>
-              </Col>
-              <Col span={12} lg={12} md={12} sm={32} xs={32}>
-                <input
-                  placeholder={`Total ${props?.data?.uom} of the Package`}
-                  type="number"
-                  min="1"
-                  className="p-3 my-3 text-xl text-dark rounded-xl border-2 border-dark border-opacity-50 focus:outline-dark"
-                  {...formik.getFieldProps("uomUnits")}
-                />
-              </Col>
-              <Col>
-                <button
-                  type="submit"
-                  className="w-36 py-2 px-4 my-5 bg-dark border-2 border-dark focus:outline-none rounded-2xl text-lg text-left text-white font-bold group duration-500 flex justify-evenly items-center"
-                >
-                  Generate
-                </button>
-              </Col>
-              <Col span={12} lg={12} md={12} sm={32} xs={32}>
-                {show ? (
+          <Spin tip="Downloading...." spinning={loading}>
+            <form onSubmit={formik.handleSubmit}>
+              <Row>
+                <Col span={12} lg={12} md={12} sm={32} xs={32}>
+                  <input
+                    placeholder="Number of QR's Required"
+                    type="number"
+                    min="1"
+                    className="p-3 text-xl text-dark rounded-xl border-2 border-dark border-opacity-50 focus:outline-dark"
+                    {...formik.getFieldProps("noOfUnits")}
+                  />
+                </Col>
+                <Col span={12} lg={12} md={12} sm={32} xs={32}>
+                  <select className="w-72 p-3 text-xl text-dark rounded-xl border-2 border-dark border-opacity-50 focus:outline-dark">
+                    <option disabled>Select the Packaging Type</option>
+                    {props?.data?.packagingType?.map((data) => (
+                      <option>{data}</option>
+                    ))}
+                  </select>
+                </Col>
+                <Col span={12} lg={12} md={12} sm={32} xs={32}>
+                  <input
+                    placeholder={`Total ${props?.data?.uom} of the Package`}
+                    type="number"
+                    min="1"
+                    className="p-3 my-3 text-xl text-dark rounded-xl border-2 border-dark border-opacity-50 focus:outline-dark"
+                    {...formik.getFieldProps("uomUnits")}
+                  />
+                </Col>
+                <Col>
                   <button
-                    type="button"
-                    onClick={() => printDocument()}
+                    type="submit"
                     className="w-36 py-2 px-4 my-5 bg-dark border-2 border-dark focus:outline-none rounded-2xl text-lg text-left text-white font-bold group duration-500 flex justify-evenly items-center"
                   >
-                    Download
+                    Generate
                   </button>
+                </Col>
+                <Col span={12} lg={12} md={12} sm={32} xs={32}>
+                  {show ? (
+                    <button
+                      type="button"
+                      onClick={() => { setLoading(true); printDocument();}}
+                      className="w-36 py-2 px-4 my-5 bg-dark border-2 border-dark focus:outline-none rounded-2xl text-lg text-left text-white font-bold group duration-500 flex justify-evenly items-center"
+                    >
+                      Download
+                    </button>
+                  ) : null}
+                </Col>
+              </Row>
+              <Row>
+                {show ? (
+                  <div
+                    id="divToPrint"
+                    className="w-[57%] flex flex-wrap justify-center gap-[20px]"
+                  >
+                    {qrCode.map((data) => (
+                      <div className="border-dark border-8 m-2 p-2">
+                        <QRCode key={data.qrId} value={data.qrId} size={80} />
+                      </div>
+                    ))}
+                  </div>
                 ) : null}
-              </Col>
-              {show ? (
-                <div
-                  id="divToPrint"
-                  className="p-[20px] w-7/11 grid grid-cols-4 gap-20"
-                >
-                  {qrCode.map((data) => (
-                    <div className="border-dark border-8 m-2 p-2">
-                      <QRCode key={data.qrId} value={data.qrId} size={80} />
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </Row>
-          </form>
+              </Row>
+            </form>
+          </Spin>
         </TabPane>
       </Tabs>
     </Drawer>
