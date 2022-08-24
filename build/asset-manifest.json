@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.4494fbf8.css",
-    "main.js": "/static/js/main.7a4de589.js",
+    "main.css": "/static/css/main.e566181a.css",
+    "main.js": "/static/js/main.2a81014e.js",
     "static/js/703.480f1585.chunk.js": "/static/js/703.480f1585.chunk.js",
     "static/js/513.7520bff4.chunk.js": "/static/js/513.7520bff4.chunk.js",
     "static/js/787.d729b48e.chunk.js": "/static/js/787.d729b48e.chunk.js",
@@ -18,14 +18,14 @@
     "static/media/logoGreenbuilt.png": "/static/media/logoGreenbuilt.a7a45d8973397145c087.png",
     "static/media/REWARD.png": "/static/media/REWARD.e88fd41a91299416b2fc.png",
     "index.html": "/index.html",
-    "main.4494fbf8.css.map": "/static/css/main.4494fbf8.css.map",
-    "main.7a4de589.js.map": "/static/js/main.7a4de589.js.map",
+    "main.e566181a.css.map": "/static/css/main.e566181a.css.map",
+    "main.2a81014e.js.map": "/static/js/main.2a81014e.js.map",
     "703.480f1585.chunk.js.map": "/static/js/703.480f1585.chunk.js.map",
     "513.7520bff4.chunk.js.map": "/static/js/513.7520bff4.chunk.js.map",
     "787.d729b48e.chunk.js.map": "/static/js/787.d729b48e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4494fbf8.css",
-    "static/js/main.7a4de589.js"
+    "static/css/main.e566181a.css",
+    "static/js/main.2a81014e.js"
   ]
 }
