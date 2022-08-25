@@ -147,6 +147,8 @@ export const EditEntry = (props) => {
                 min="0"
                 value={data[index]?.ownCaptive || 0}
                 onChange={(e) => {
+                  console.log(sourceData)
+                  console.log(props.data.monthlyPlans)
                   setData([
                     ...data.slice(0, index),
                     {

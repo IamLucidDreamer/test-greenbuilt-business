@@ -36,7 +36,10 @@ export const DrawerComp = (props) => {
       uomUnits: Yup.string().required("Required"),
     }),
     onSubmit: (value) => {
-      console.log(value);
+      if (value.noOfUnits <= 0) {
+        toast.error("No. of QR's should be more than 0.");
+        return;
+      }
       generateQr(value);
     },
   });
@@ -160,7 +163,10 @@ export const DrawerComp = (props) => {
                   {show ? (
                     <button
                       type="button"
-                      onClick={() => { setLoading(true); printDocument();}}
+                      onClick={() => {
+                        setLoading(true);
+                        printDocument();
+                      }}
                       className="w-36 py-2 px-4 my-5 bg-dark border-2 border-dark focus:outline-none rounded-2xl text-lg text-left text-white font-bold group duration-500 flex justify-evenly items-center"
                     >
                       Download
